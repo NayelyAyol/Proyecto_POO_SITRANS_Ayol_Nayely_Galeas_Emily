@@ -1,5 +1,7 @@
 package Login;
 
+import Administrador.Administrador;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,7 +22,7 @@ public class Login extends JFrame{
         setVisible(true);
         setContentPane(Principal);
         setTitle("Iniciar Sesión");
-        setSize(300, 450);
+        setSize(300, 470);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -52,6 +54,10 @@ public class Login extends JFrame{
                 // se valida con usuarios y contraseñas de prueba para verificar que el botón de iniciar sesión funcione
                 if (usuario.equals("admin") && password.equals("1234") && rolSeleccionado.equals("Administrador")) {
                     JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso como Administrador.");
+                    Administrador admin = new Administrador();
+                    admin.mostrarCarta("Dashboard");
+                    admin.setVisible(true);
+                    dispose();
                 } else if (usuario.equals("conductor") && password.equals("abcd") && rolSeleccionado.equals("Conductor")) {
                     JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso como Conductor.");
                 } else if (usuario.equals("monitor") && password.equals("xyz") && rolSeleccionado.equals("Monitor")) {
