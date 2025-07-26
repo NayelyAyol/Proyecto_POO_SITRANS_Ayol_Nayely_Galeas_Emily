@@ -3,30 +3,34 @@ package Login;
 import Administrador.Administrador;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class Login extends JFrame{
-    private JPanel Principal;
+    private JPanel Login;
     private JTextField usuarioField;
     private JPasswordField contraseniaField;
     private JButton iniciarSesionButton;
     private JButton conductorButton;
     private JButton administradorButton;
     private JButton monitorDeRutaButton;
+    private JPanel Fondo;
 
     private String rolSeleccionado = null; //variable para guardar el rol elegido
 
     public Login(){
         setVisible(true);
-        setContentPane(Principal);
+        setContentPane(Fondo);
         setTitle("Iniciar Sesión");
-        setSize(300, 470);
+        setExtendedState(MAXIMIZED_BOTH);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/icons/bus.png")));
+        Login.setBorder(new LineBorder(new Color(206,255,253),4));
+
 
         // guarda la opción del botón seleccionado
         administradorButton.addActionListener(e -> seleccionarRol("Administrador"));
@@ -41,13 +45,13 @@ public class Login extends JFrame{
 
                 // valida si el campo usuario o contraseña están vacíos
                 if (usuario.trim().isEmpty() || password.trim().isEmpty()){
-                    JOptionPane.showMessageDialog(Principal,"Por favor, ingrese los datos solicitados.");
+                    JOptionPane.showMessageDialog(Login,"Por favor, ingrese los datos solicitados.");
                     return;
                 }
 
                 // valida si el usuario no ha seleccionado un rol
                 if (rolSeleccionado == null){
-                    JOptionPane.showMessageDialog(Principal,"Por favor, selecciona un rol.");
+                    JOptionPane.showMessageDialog(Login,"Por favor, selecciona un rol.");
                     return;
                 }
 
@@ -72,6 +76,6 @@ public class Login extends JFrame{
     // metodo para confirmar el rol seleccionado
     private void seleccionarRol(String rol) {
         this.rolSeleccionado = rol;
-        JOptionPane.showMessageDialog(Principal, "Rol seleccionado: " + rol);
+        JOptionPane.showMessageDialog(Login, "Rol seleccionado: " + rol);
     }
 }
