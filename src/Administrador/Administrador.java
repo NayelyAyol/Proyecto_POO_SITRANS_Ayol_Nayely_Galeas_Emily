@@ -187,6 +187,12 @@ public class Administrador extends JFrame{
                 mostrarCarta("alertas");
             }
         });
+        dashboardButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCarta("dashboard");
+            }
+        });
     }
 
     public void mostrarCarta(String nombreCarta) {
