@@ -76,6 +76,19 @@ public class Administrador extends JFrame{
     private JButton limpiarConductorButton;
     private JPanel listaConductoresPanel;
     private JButton eliminarConductorButton;
+    private JPanel reportesPanel;
+    private JTextField buscarEtdtextField;
+    private JTextArea buscarEstudianteTextArea;
+    private JPanel totalEstudiantesPanel;
+    private JPanel rutasActivasPanel;
+    private JPanel asistenciaPromedioPanel;
+    private JPanel buscarEstudiantesPanel;
+    private JTextArea reporteAreaTextArea;
+    private JPanel cuadrosInfoPanel;
+    private JPanel alertas;
+    private JButton atendidaButton;
+    private JTextArea alertasTextArea;
+    private JPanel alertasPanel;
 
     public Administrador(){
         setContentPane(Principal);
@@ -90,6 +103,8 @@ public class Administrador extends JFrame{
         Cards.add(registrarRutas, "rutas");
         Cards.add(registrarEstudiantes, "estudiantes");
         Cards.add(registrarConductores, "conductores");
+        Cards.add(reportesPanel, "reportes");
+        Cards.add(alertas,"alertas");
 
         Barra_navegacion.setBorder(new LineBorder(new Color(0,0,0),1));
         encabezado.setBorder(new LineBorder(new Color(0,0,0),1));
@@ -115,6 +130,19 @@ public class Administrador extends JFrame{
         registrarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
         limpiarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
         eliminarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
+
+        //Reportes
+        totalEstudiantesPanel.setBorder(new LineBorder(new Color(0,0,0),2));
+        rutasActivasPanel.setBorder(new LineBorder(new Color(0,0,0),2));
+        asistenciaPromedioPanel.setBorder(new LineBorder(new Color(0,0,0),2));
+        buscarEstudiantesPanel.setBorder(new LineBorder(new Color(0,0,0),2));
+        buscarEstudianteTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
+        reporteAreaTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
+
+
+        //Alertas
+        alertasPanel.setBorder(new LineBorder(new Color(206,255,253),4));
+        alertasTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
 
         gestionDeRutasButton.addActionListener(new ActionListener() {
             @Override
@@ -145,6 +173,18 @@ public class Administrador extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("conductores");
+            }
+        });
+        reportesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCarta("reportes");
+            }
+        });
+        alertasButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCarta("alertas");
             }
         });
     }
