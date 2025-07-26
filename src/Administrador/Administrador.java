@@ -14,27 +14,27 @@ public class Administrador extends JFrame{
     private JPanel estuReg;
     private JPanel alertPen;
     private JPanel eficienciaPro;
-    private JTextArea rutastextArea1;
+    private JTextArea rutastextArea;
     private JPanel Cards;
     private JButton gestionDeRutasButton;
     private JPanel Dashboard;
-    private JTextField nombreRuta;
-    private JTextField origenRuta;
-    private JTextField destinoRuta;
-    private JComboBox estadoRutaCombo;
-    private JPanel Registrar_rutas;
+    private JTextField nombreRutaTextField;
+    private JTextField origenRutaTextField;
+    private JTextField destinoRutaTextField;
+    private JComboBox estadoRutaComboBox;
+    private JPanel registrarRutas;
     private JPanel Barra_navegacion;
     private JButton dashboardButton;
     private JButton estudiantesButton;
-    private JButton conductoresButton;
+    private JButton registroDeConductoresButton;
     private JButton reportesButton;
     private JButton alertasButton;
     private JPanel nuevaRuta;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
-    private JTextField textField1;
-    private JTextField textField3;
-    private JComboBox comboBox3;
+    private JComboBox conductoComboBox;
+    private JComboBox vehiculoComboBox;
+    private JTextField capacidadTextField;
+    private JTextField horaTextField;
+    private JComboBox diaComboBox;
     private JPanel configuracionExtra;
     private JPanel encabezado;
     private JButton sesionButton;
@@ -44,19 +44,38 @@ public class Administrador extends JFrame{
     private JPanel datosPersonales;
     private JPanel informacionContacto;
     private JPanel listaEstudiantes;
-    private JTextField textField2;
-    private JTextField textField4;
-    private JTextField textField5;
-    private JComboBox comboBox4;
-    private JTextField textField6;
-    private JTextField textField7;
-    private JTextField textField8;
-    private JTextField textField9;
+    private JTextField nombresTextField;
+    private JTextField apellidosTextField;
+    private JTextField cedulaTextField;
+    private JComboBox generoComboBox;
+    private JTextField cursoTextField;
+    private JTextField telefonoTextField;
+    private JTextField correoTextField;
+    private JTextField direccionTextField;
     private JTextArea listaEstudiantestextArea;
-    private JButton eliminarButtonLista;
-    private JButton registrarButtonEtd;
-    private JButton limpiarButtonEstd;
+    private JButton eliminarListaButton;
+    private JButton registrarEtdButton;
+    private JButton limpiarEtdButton;
     private JPanel lista;
+    private JLabel rutasActivasLabel;
+    private JLabel alertasPendientesLabel;
+    private JLabel estudiantesRegistradosLabel;
+    private JLabel edadPromedioLabel;
+    private JPanel dashboardPanel;
+    private JPanel registrarConductores;
+    private JComboBox tipoSangreComboBox;
+    private JTextField numeroLicenciaTextField;
+    private JTextField correoConductorTextField;
+    private JTextField telefonoConductorTextField;
+    private JTextField cedulaConductorTextField;
+    private JTextField apellidosConductorTextField;
+    private JTextField nombresConductorTextField;
+    private JTextArea listaConductoresTextArea;
+    private JPanel formularioRegistroConductoresPanel;
+    private JButton registrarConductorButton;
+    private JButton limpiarConductorButton;
+    private JPanel listaConductoresPanel;
+    private JButton eliminarConductorButton;
 
     public Administrador(){
         setContentPane(Principal);
@@ -68,8 +87,9 @@ public class Administrador extends JFrame{
 
         Cards.setLayout(new CardLayout());
         Cards.add(Dashboard, "dashboard");
-        Cards.add(Registrar_rutas, "rutas");
+        Cards.add(registrarRutas, "rutas");
         Cards.add(registrarEstudiantes, "estudiantes");
+        Cards.add(registrarConductores, "conductores");
 
         Barra_navegacion.setBorder(new LineBorder(new Color(0,0,0),1));
         encabezado.setBorder(new LineBorder(new Color(0,0,0),1));
@@ -77,18 +97,24 @@ public class Administrador extends JFrame{
         estuReg.setBorder(new LineBorder(new Color(206,255,253), 4));
         alertPen.setBorder(new LineBorder(new Color(206,255,253), 4));
         eficienciaPro.setBorder(new LineBorder(new Color(206,255,253), 4));
-        rutastextArea1.setBorder(new LineBorder(new Color(206,255,253), 4));
+        rutastextArea.setBorder(new LineBorder(new Color(206,255,253), 4));
         nuevaRuta.setBorder(new LineBorder(new Color(206,255,253),4));
         configuracionExtra.setBorder(new LineBorder(new Color(206,255,253),4));
         sesionButton.setBorder(null);
         guardarButton.setBorder(new LineBorder(new Color(0,0,0),2));
         limpiarButton.setBorder(new LineBorder(new Color(0,0,0),2));
-        registrarButtonEtd.setBorder(new LineBorder(new Color(0,0,0),2));
-        limpiarButtonEstd.setBorder(new LineBorder(new Color(0,0,0),2));
-        eliminarButtonLista.setBorder(new LineBorder(new Color(0,0,0),2));
+        registrarEtdButton.setBorder(new LineBorder(new Color(0,0,0),2));
+        limpiarEtdButton.setBorder(new LineBorder(new Color(0,0,0),2));
+        eliminarListaButton.setBorder(new LineBorder(new Color(0,0,0),2));
         datosPersonales.setBorder(new LineBorder(new Color(206,255,253),4));
         informacionContacto.setBorder(new LineBorder(new Color(206,255,253),4));
         listaEstudiantestextArea.setBorder(new LineBorder(new Color(0,0,0),1));
+        listaConductoresTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
+        listaConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
+        formularioRegistroConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
+        registrarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
+        limpiarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
+        eliminarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
 
         gestionDeRutasButton.addActionListener(new ActionListener() {
             @Override
@@ -113,6 +139,12 @@ public class Administrador extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("estudiantes");
+            }
+        });
+        registroDeConductoresButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCarta("conductores");
             }
         });
     }
