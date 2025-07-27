@@ -1,6 +1,7 @@
 package Login;
 
 import Administrador.Administrador;
+import Conductor.Conductor;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -62,8 +63,12 @@ public class Login extends JFrame{
                     admin.mostrarCarta("Dashboard");
                     admin.setVisible(true);
                     dispose();
+
                 } else if (usuario.equals("conductor") && password.equals("abcd") && rolSeleccionado.equals("Conductor")) {
                     JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso como Conductor.");
+                    new Conductor();
+                    dispose();
+
                 } else if (usuario.equals("monitor") && password.equals("xyz") && rolSeleccionado.equals("Monitor")) {
                     JOptionPane.showMessageDialog(null, "Inicio de sesión exitoso como Monitor.");
                 } else {

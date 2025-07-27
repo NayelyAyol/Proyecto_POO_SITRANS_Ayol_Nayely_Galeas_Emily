@@ -33,7 +33,7 @@ public class Administrador extends JFrame{
     private JComboBox conductoComboBox;
     private JComboBox vehiculoComboBox;
     private JTextField capacidadTextField;
-    private JTextField horaTextField;
+    private JTextField horaLlegadaTextField;
     private JComboBox diaComboBox;
     private JPanel configuracionExtra;
     private JPanel encabezado;
@@ -89,6 +89,7 @@ public class Administrador extends JFrame{
     private JButton atendidaButton;
     private JTextArea alertasTextArea;
     private JPanel alertasPanel;
+    private JTextField horaSalidaTextField;
 
     public Administrador(){
         setContentPane(Principal);

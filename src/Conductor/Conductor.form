@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Conductor.Conductor">
+  <grid id="a71fa" binding="Principal" layout-manager="GridBagLayout">
+    <constraints>
+      <xy x="20" y="20" width="1527" height="1266"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="6f678" binding="conductorPanel">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+          <gridbag weightx="1.0" weighty="1.0" ipady="150"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="ed32b" layout-manager="GridBagLayout">
+            <constraints>
+              <tabbedpane title="Ruta"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="42cd3" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Información de la Ruta Asignada"/>
+                </properties>
+              </component>
+              <component id="47820" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Ruta asignada:"/>
+                </properties>
+              </component>
+              <component id="ecb0" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Zona:"/>
+                </properties>
+              </component>
+              <component id="75d01" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="8" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Capacidad:"/>
+                </properties>
+              </component>
+              <component id="b48d7" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="10" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Asignados:"/>
+                </properties>
+              </component>
+              <component id="a45e3" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="12" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Hora estimada de salida:"/>
+                </properties>
+              </component>
+              <component id="e7e0b" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="14" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Hora estimada de llegada:"/>
+                </properties>
+              </component>
+              <component id="c31f2" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/location24x24.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="b5881" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/map24x24.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="74663" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/people24x24.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="1d78" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/user24x24.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="739e4" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/clockA24x24.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="a3f89" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="14" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <icon value="Icons/clockR24x24.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <grid id="116f" layout-manager="GridBagLayout">
+                <constraints>
+                  <grid row="4" column="7" row-span="11" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <background color="-1"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="e7783" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Ubicacion Actual"/>
+                    </properties>
+                  </component>
+                  <component id="72238" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="2" column="0" row-span="1" col-span="6" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <icon value="Icons/street-map256x256.png"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="c9f7b" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Estado Actual"/>
+                    </properties>
+                  </component>
+                  <hspacer id="168bc">
+                    <constraints>
+                      <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                  </hspacer>
+                  <component id="a9205" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                    <constraints>
+                      <grid row="6" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipadx="100" ipady="7"/>
+                    </constraints>
+                    <properties>
+                      <model>
+                        <item value="No iniciado"/>
+                        <item value="En progreso"/>
+                        <item value="Finalizada"/>
+                      </model>
+                    </properties>
+                  </component>
+                  <component id="86026" class="javax.swing.JButton" binding="actualizarButton" default-binding="true">
+                    <constraints>
+                      <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="7"/>
+                    </constraints>
+                    <properties>
+                      <background color="-3211267"/>
+                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Actualizar"/>
+                    </properties>
+                  </component>
+                  <hspacer id="f0ae7">
+                    <constraints>
+                      <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipadx="60"/>
+                    </constraints>
+                  </hspacer>
+                  <vspacer id="d7893">
+                    <constraints>
+                      <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
+                    </constraints>
+                  </vspacer>
+                  <vspacer id="bef17">
+                    <constraints>
+                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                    </constraints>
+                  </vspacer>
+                  <vspacer id="b8968">
+                    <constraints>
+                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                    </constraints>
+                  </vspacer>
+                  <hspacer id="cca2b">
+                    <constraints>
+                      <grid row="1" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipadx="50"/>
+                    </constraints>
+                  </hspacer>
+                  <vspacer id="28992">
+                    <constraints>
+                      <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                    </constraints>
+                  </vspacer>
+                </children>
+              </grid>
+              <component id="cabc" class="javax.swing.JTextField" binding="rutaAsignadatextField">
+                <constraints>
+                  <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="0.0" ipady="7"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="26a67" class="javax.swing.JTextField" binding="zonatextField">
+                <constraints>
+                  <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="0.0" ipady="7"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="9b19d" class="javax.swing.JTextField" binding="capacidadtextField">
+                <constraints>
+                  <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="0.0" ipady="7"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="9453d" class="javax.swing.JTextField" binding="asignadostextField">
+                <constraints>
+                  <grid row="10" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="0.0" ipady="7"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="290b0" class="javax.swing.JTextField" binding="horaSalidatextField">
+                <constraints>
+                  <grid row="12" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="0.0" ipady="7"/>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="23ccc" class="javax.swing.JTextField" binding="horaEstimadatextField">
+                <constraints>
+                  <grid row="14" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                  <gridbag weightx="1.0" weighty="0.0" ipady="7"/>
+                </constraints>
+                <properties/>
+              </component>
+              <vspacer id="ed40c">
+                <constraints>
+                  <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="50"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="4fd77">
+                <constraints>
+                  <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="50"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="32e25">
+                <constraints>
+                  <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="50"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="f2a51">
+                <constraints>
+                  <grid row="11" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="50"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="3b4f7">
+                <constraints>
+                  <grid row="13" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="50"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="58cde">
+                <constraints>
+                  <grid row="15" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="5f831">
+                <constraints>
+                  <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+              </vspacer>
+              <hspacer id="67ac0">
+                <constraints>
+                  <grid row="6" column="6" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipadx="50"/>
+                </constraints>
+              </hspacer>
+              <hspacer id="90f92">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipadx="50"/>
+                </constraints>
+              </hspacer>
+              <vspacer id="3be8d">
+                <constraints>
+                  <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="40"/>
+                </constraints>
+              </vspacer>
+              <hspacer id="942c1">
+                <constraints>
+                  <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
+                </constraints>
+              </hspacer>
+            </children>
+          </grid>
+          <grid id="12a1b" layout-manager="GridBagLayout">
+            <constraints>
+              <tabbedpane title="Lista de Estudiantes"/>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="f884f" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="0.0"/>
+                </constraints>
+                <properties>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <text value="Lista de Estudiantes Asignados"/>
+                </properties>
+              </component>
+              <scrollpane id="2ba96" binding="listaEstudiantesTable">
+                <constraints>
+                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="11da4" class="javax.swing.JTable" binding="table1" default-binding="true">
+                    <constraints/>
+                    <properties/>
+                  </component>
+                </children>
+              </scrollpane>
+              <vspacer id="2ca67">
+                <constraints>
+                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                </constraints>
+              </vspacer>
+              <hspacer id="5bf00">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipadx="30"/>
+                </constraints>
+              </hspacer>
+              <hspacer id="6ee7d">
+                <constraints>
+                  <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipadx="30"/>
+                </constraints>
+              </hspacer>
+              <vspacer id="bee64">
+                <constraints>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                </constraints>
+              </vspacer>
+              <vspacer id="aa197">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                </constraints>
+              </vspacer>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+      <grid id="2b17b" binding="encabezado" layout-manager="GridBagLayout">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0" ipady="70"/>
+        </constraints>
+        <properties>
+          <background color="-3211267"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="2d239" class="javax.swing.JButton" binding="cerrarSesionButton">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="1.0"/>
+            </constraints>
+            <properties>
+              <background color="-3211267"/>
+              <icon value="Icons/conductorIcon64x64.png"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <hspacer id="5696e">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0" ipadx="1300"/>
+            </constraints>
+          </hspacer>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
