@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 public class Login extends JFrame{
     private JPanel Login;
-    private JTextField usuarioField;
+    private JTextField correoField;
     private JPasswordField contraseniaField;
     private JButton iniciarSesionButton;
     private JButton conductorButton;
@@ -45,11 +45,11 @@ public class Login extends JFrame{
         iniciarSesionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String usuario = usuarioField.getText();
+                String correo = correoField.getText();
                 String clave = String.valueOf(contraseniaField.getPassword());
 
                 // valida si el campo usuario o contraseña están vacíos
-                if (usuario.trim().isEmpty() || clave.trim().isEmpty()){
+                if (correo.trim().isEmpty() || clave.trim().isEmpty()){
                     JOptionPane.showMessageDialog(Login,"Por favor, ingrese los datos solicitados.");
                     return;
                 }
@@ -61,7 +61,7 @@ public class Login extends JFrame{
                 }
 
                 // validacion de los datos ingresados con la conexion en mysql
-                if (validarLogin(usuario, clave, rolSeleccionado)){
+                if (validarLogin(correo, clave, rolSeleccionado)){
                     JOptionPane.showMessageDialog(Login,"Inicio de sesión exitoso como " + rolSeleccionado);
 
                     // dependiendo del rol, se abre la ventana correspondiente
@@ -92,14 +92,23 @@ public class Login extends JFrame{
     }
 
     // metodo para validar el login en la base de datos
-    private boolean validarLogin(String nombre, String clave, String rol){
-        // Consulta SQL para verificar si existe un usuario con ese nombre de usuario y contraseña
-        String query = "SELECT * FROM usuarios WHERE nombre = ? AND clave = ? AND rol = ?";
+    private boolean validarLogin(String correo, String clave, String rol){
+
+        String tabla;
+
+        switch (rol){
+            case "Administrador" -> tabla = "administradores";
+            case "Conductor"     -> tabla = "conductores";
+            case "Monitor"       -> tabla = "monitores";
+            default -> { return false; }
+        }
+
+        // Consulta SQL para verificar si existe un usuario con ese correo y contraseña, dependiendo el rol seleccionado
+        String query = "SELECT * FROM " + tabla + " WHERE correo = ? AND clave = ?";
         try(Connection conexion = ConexionDB.getConnection(); PreparedStatement stmt = conexion.prepareStatement(query)){
             // asocia los parámetros de la consulta con los valores ingresados
-            stmt.setString(1, nombre);
+            stmt.setString(1, correo);
             stmt.setString(2, clave);
-            stmt.setString(3,rol);
             // Ejecuta la consulta
             ResultSet rs = stmt.executeQuery();
             // Si hay resultados, significa que el usuario, contraseña y rol son válidos
