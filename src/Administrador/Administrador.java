@@ -102,6 +102,7 @@ public class Administrador extends JFrame{
     private JTable alertasTable;
     private JScrollPane alertasScroll;
     private JPanel alertasSinAtenderPanel;
+    private JTextField nRutaTextField;
 
     public Administrador(){
         setContentPane(Principal);

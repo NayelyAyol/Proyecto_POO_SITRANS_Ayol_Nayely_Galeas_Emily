@@ -1103,7 +1103,7 @@
                   </vspacer>
                   <vspacer id="3f237">
                     <constraints>
-                      <grid row="24" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="28" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
                     </constraints>
                   </vspacer>
@@ -1135,6 +1135,40 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </hspacer>
+                  <component id="8861" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="25" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="N° Ruta Asignada"/>
+                    </properties>
+                  </component>
+                  <component id="80acb" class="javax.swing.JTextField" binding="nRutaTextField">
+                    <constraints>
+                      <grid row="27" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="7"/>
+                    </constraints>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <vspacer id="3605f">
+                    <constraints>
+                      <grid row="24" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                  </vspacer>
+                  <vspacer id="3cbdb">
+                    <constraints>
+                      <grid row="26" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                  </vspacer>
                 </children>
               </grid>
               <grid id="ca2c8" binding="listaEstudiantes" layout-manager="GridBagLayout">
