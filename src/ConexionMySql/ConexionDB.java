@@ -23,8 +23,7 @@ public class ConexionDB {
 
             return conexion;
         }catch (SQLException e){
-            System.out.println("No se ha podido establecer conexión con el servidor.");
-            e.printStackTrace();
+            System.out.println("Error al establecer la conexión: "+e.getMessage());
         }
 
         // retornar null si es que hubo un error en la conexión
