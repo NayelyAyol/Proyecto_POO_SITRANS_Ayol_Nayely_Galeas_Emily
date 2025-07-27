@@ -188,6 +188,7 @@ public class Administrador extends JFrame{
         registroDeConductoresButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                cargarConductoresRegistro();
                 mostrarCarta("conductores");
             }
         });
@@ -252,7 +253,7 @@ public class Administrador extends JFrame{
         registrarConductorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                registrarConductores();
             }
         });
     }
@@ -343,14 +344,44 @@ public class Administrador extends JFrame{
             int resultado = ps.executeUpdate();
 
             if (resultado>0){
-                JOptionPane.showMessageDialog(null,"Estudiante registrado exitosamente.");
+                JOptionPane.showMessageDialog(null,"Conductor registrado exitosamente.");
             }else {
-                JOptionPane.showMessageDialog(null,"Error al registrar estudiante.");
+                JOptionPane.showMessageDialog(null,"Error al registrar conductor.");
             }
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
         }
+        cargarConductoresRegistro();
+    }
 
+    // cargar la lista de conductores
+    public void cargarConductoresRegistro(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Licencia");
+
+        String query = "SELECT concat(nombres, ' ', apellidos) as nombre, telefono, correo, n_licencia from conductores";
+
+        try (Connection conexion = ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Object[] fila = new Object[4];
+                fila[0] = rs.getString("nombre");
+                fila[1] = rs.getString("telefono");
+                fila[2] = rs.getString("correo");
+                fila[3] = rs.getString("n_licencia");
+                modelo.addRow(fila);
+            }
+
+            listaConductoresTable.setModel(modelo);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar rutas: " + e.getMessage());
+        }
     }
 
     // para cargar rutas al momento de registrar estudiantes
