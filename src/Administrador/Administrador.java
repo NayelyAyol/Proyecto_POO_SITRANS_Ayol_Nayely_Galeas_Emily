@@ -68,6 +68,7 @@ public class Administrador extends JFrame{
     private JTextField cedulaConductorTextField;
     private JTextField apellidosConductorTextField;
     private JTextField nombresConductorTextField;
+    private JPasswordField conductorContraseniaPasswordField;
     private JPanel formularioRegistroConductoresPanel;
     private JButton registrarConductorButton;
     private JButton limpiarConductorButton;
