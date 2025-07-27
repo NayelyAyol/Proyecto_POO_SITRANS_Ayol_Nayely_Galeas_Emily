@@ -435,7 +435,7 @@
                     <properties>
                       <font name="JetBrains Mono" size="14" style="1"/>
                       <foreground color="-16777216"/>
-                      <text value="Vehiculo"/>
+                      <text value="Placas Vehiculo"/>
                     </properties>
                   </component>
                   <component id="492c3" class="javax.swing.JLabel">
@@ -580,7 +580,7 @@
                     </constraints>
                     <properties/>
                   </component>
-                  <component id="ea86" class="javax.swing.JComboBox" binding="vehiculoComboBox">
+                  <component id="6147e" class="javax.swing.JTextField" binding="vehiculoTextField">
                     <constraints>
                       <grid row="21" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
@@ -1002,21 +1002,18 @@
                     </constraints>
                     <properties/>
                   </component>
-                  <component id="dcb6" class="javax.swing.JTextField" binding="cedulaTextField">
-                    <constraints>
-                      <grid row="15" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="150" height="-1"/>
-                      </grid>
-                      <gridbag weightx="0.0" weighty="0.0" ipady="7"/>
-                    </constraints>
-                    <properties/>
-                  </component>
                   <component id="1dd57" class="javax.swing.JComboBox" binding="generoComboBox">
                     <constraints>
                       <grid row="19" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipady="7"/>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <model>
+                        <item value=""/>
+                        <item value="Masculino"/>
+                        <item value="Femenino"/>
+                      </model>
+                    </properties>
                   </component>
                   <component id="5ffef" class="javax.swing.JTextField" binding="cursoTextField">
                     <constraints>
@@ -1146,7 +1143,7 @@
                       <text value="N° Ruta Asignada"/>
                     </properties>
                   </component>
-                  <component id="80acb" class="javax.swing.JTextField" binding="nRutaTextField">
+                  <component id="2bd3d" class="javax.swing.JComboBox" binding="nRutaComboBox">
                     <constraints>
                       <grid row="27" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="150" height="-1"/>
@@ -1154,7 +1151,7 @@
                       <gridbag weightx="0.0" weighty="0.0" ipady="7"/>
                     </constraints>
                     <properties>
-                      <text value=""/>
+                      <model/>
                     </properties>
                   </component>
                   <vspacer id="3605f">
@@ -1169,6 +1166,15 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </vspacer>
+                  <component id="dcb6" class="javax.swing.JTextField" binding="cedulaTextField">
+                    <constraints>
+                      <grid row="15" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="150" height="-1"/>
+                      </grid>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="7"/>
+                    </constraints>
+                    <properties/>
+                  </component>
                 </children>
               </grid>
               <grid id="ca2c8" binding="listaEstudiantes" layout-manager="GridBagLayout">
@@ -1584,7 +1590,19 @@
                       <grid row="33" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipady="7"/>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <model>
+                        <item value=""/>
+                        <item value="A+"/>
+                        <item value="A-"/>
+                        <item value="B+"/>
+                        <item value="B-"/>
+                        <item value="AB+"/>
+                        <item value="AB-"/>
+                        <item value="O+"/>
+                        <item value="O-"/>
+                      </model>
+                    </properties>
                   </component>
                   <component id="76db5" class="javax.swing.JTextField" binding="numeroLicenciaTextField">
                     <constraints>
