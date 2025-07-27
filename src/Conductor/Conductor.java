@@ -23,6 +23,7 @@ public class Conductor extends JFrame {
     private JTable table1;
     private JScrollPane listaEstudiantesTable;
     private JPanel encabezado;
+    private JButton abordoButton;
 
     public Conductor() {
         setContentPane(Principal);

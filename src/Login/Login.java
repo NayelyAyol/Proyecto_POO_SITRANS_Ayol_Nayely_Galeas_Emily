@@ -106,7 +106,7 @@ public class Login extends JFrame{
             return rs.next();
         } catch (SQLException e) {
             // Si ocurre un error en la conexión o la consulta, imprime el error y devuelve false
-            e.printStackTrace();
+            System.out.println("Error: "+e.getMessage());
             return false;
         }
     }

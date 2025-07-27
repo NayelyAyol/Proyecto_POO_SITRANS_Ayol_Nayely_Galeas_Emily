@@ -14,7 +14,6 @@ public class Administrador extends JFrame{
     private JPanel estuReg;
     private JPanel alertPen;
     private JPanel eficienciaPro;
-    private JTextArea rutastextArea;
     private JPanel Cards;
     private JButton gestionDeRutasButton;
     private JPanel Dashboard;
@@ -52,7 +51,6 @@ public class Administrador extends JFrame{
     private JTextField telefonoTextField;
     private JTextField correoTextField;
     private JTextField direccionTextField;
-    private JTextArea listaEstudiantestextArea;
     private JButton eliminarListaButton;
     private JButton registrarEtdButton;
     private JButton limpiarEtdButton;
@@ -70,7 +68,6 @@ public class Administrador extends JFrame{
     private JTextField cedulaConductorTextField;
     private JTextField apellidosConductorTextField;
     private JTextField nombresConductorTextField;
-    private JTextArea listaConductoresTextArea;
     private JPanel formularioRegistroConductoresPanel;
     private JButton registrarConductorButton;
     private JButton limpiarConductorButton;
@@ -78,18 +75,32 @@ public class Administrador extends JFrame{
     private JButton eliminarConductorButton;
     private JPanel reportesPanel;
     private JTextField buscarEtdtextField;
-    private JTextArea buscarEstudianteTextArea;
     private JPanel totalEstudiantesPanel;
     private JPanel rutasActivasPanel;
     private JPanel asistenciaPromedioPanel;
     private JPanel buscarEstudiantesPanel;
-    private JTextArea reporteAreaTextArea;
     private JPanel cuadrosInfoPanel;
     private JPanel alertas;
     private JButton atendidaButton;
-    private JTextArea alertasTextArea;
     private JPanel alertasPanel;
     private JTextField horaSalidaTextField;
+    private JTable rutasDashboardTable;
+    private JTable listaEstudiantestable;
+    private JScrollPane listaScroll;
+    private JPanel listaEstudiantesPanel;
+    private JTable listaConductoresTable;
+    private JScrollPane listaConductoresScroll;
+    private JPanel listaConductores;
+    private JTable reportesRutaTable;
+    private JTable table3;
+    private JPanel rutasTableScrollPane;
+    private JScrollPane rutasDashScrolll;
+    private JPanel reportesRutasPanel;
+    private JPanel cuadroReportePanel;
+    private JScrollPane reportesScroll;
+    private JTable alertasTable;
+    private JScrollPane alertasScroll;
+    private JPanel alertasSinAtenderPanel;
 
     public Administrador(){
         setContentPane(Principal);
@@ -113,7 +124,6 @@ public class Administrador extends JFrame{
         estuReg.setBorder(new LineBorder(new Color(206,255,253), 4));
         alertPen.setBorder(new LineBorder(new Color(206,255,253), 4));
         eficienciaPro.setBorder(new LineBorder(new Color(206,255,253), 4));
-        rutastextArea.setBorder(new LineBorder(new Color(206,255,253), 4));
         nuevaRuta.setBorder(new LineBorder(new Color(206,255,253),4));
         configuracionExtra.setBorder(new LineBorder(new Color(206,255,253),4));
         sesionButton.setBorder(null);
@@ -124,8 +134,6 @@ public class Administrador extends JFrame{
         eliminarListaButton.setBorder(new LineBorder(new Color(0,0,0),2));
         datosPersonales.setBorder(new LineBorder(new Color(206,255,253),4));
         informacionContacto.setBorder(new LineBorder(new Color(206,255,253),4));
-        listaEstudiantestextArea.setBorder(new LineBorder(new Color(0,0,0),1));
-        listaConductoresTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
         listaConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
         formularioRegistroConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
         registrarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
@@ -137,13 +145,10 @@ public class Administrador extends JFrame{
         rutasActivasPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         asistenciaPromedioPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         buscarEstudiantesPanel.setBorder(new LineBorder(new Color(0,0,0),2));
-        buscarEstudianteTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
-        reporteAreaTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
 
 
         //Alertas
         alertasPanel.setBorder(new LineBorder(new Color(206,255,253),4));
-        alertasTextArea.setBorder(new LineBorder(new Color(0,0,0),1));
 
         gestionDeRutasButton.addActionListener(new ActionListener() {
             @Override
