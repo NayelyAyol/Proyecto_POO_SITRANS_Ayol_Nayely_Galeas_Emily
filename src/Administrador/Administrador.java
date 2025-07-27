@@ -201,10 +201,22 @@ public class Administrador extends JFrame{
                 mostrarCarta("dashboard");
             }
         });
+
+        // boton registrar estudiante
+        registrarEtdButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
     }
 
     public void mostrarCarta(String nombreCarta) {
         CardLayout cl = (CardLayout) Cards.getLayout();
         cl.show(Cards, nombreCarta);
+    }
+
+    public void registrarEstudiante(){
+
     }
 }
