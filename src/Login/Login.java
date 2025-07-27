@@ -3,6 +3,7 @@ package Login;
 import Administrador.Administrador;
 import Conductor.Conductor;
 import ConexionMySql.ConexionDB;
+import MonitorDeRuta.MonitorDeRuta;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -75,6 +76,7 @@ public class Login extends JFrame{
                             new Conductor();
                             break;
                         case "Monitor":
+                            new MonitorDeRuta();
                             break;
                     }
                     dispose();
