@@ -48,41 +48,7 @@ public class Login extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String correo = correoField.getText();
                 String clave = String.valueOf(contraseniaField.getPassword());
-
-                // valida si el campo usuario o contraseña están vacíos
-                if (correo.trim().isEmpty() || clave.trim().isEmpty()){
-                    JOptionPane.showMessageDialog(Login,"Por favor, ingrese los datos solicitados.");
-                    return;
-                }
-
-                // valida si el usuario no ha seleccionado un rol
-                if (rolSeleccionado == null){
-                    JOptionPane.showMessageDialog(Login,"Por favor, selecciona un rol.");
-                    return;
-                }
-
-                // validacion de los datos ingresados con la conexion en mysql
-                if (validarLogin(correo, clave, rolSeleccionado)){
-                    JOptionPane.showMessageDialog(Login,"Inicio de sesión exitoso como " + rolSeleccionado);
-
-                    // dependiendo del rol, se abre la ventana correspondiente
-                    switch (rolSeleccionado){
-                        case "Administrador":
-                            Administrador admin = new Administrador();
-                            admin.mostrarCarta("Dashboard");
-                            admin.setVisible(true);
-                            break;
-                        case "Conductor":
-                            new Conductor();
-                            break;
-                        case "Monitor":
-                            new MonitorDeRuta();
-                            break;
-                    }
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Credenciales o rol seleccionado incorrectos.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+                iniciarSesion(correo, clave, rolSeleccionado)
             }
         });
     }
@@ -96,17 +62,15 @@ public class Login extends JFrame{
     // metodo para validar el login en la base de datos
     private boolean validarLogin(String correo, String clave, String rol){
 
-        String tabla;
-
-        switch (rol){
-            case "Administrador" -> tabla = "administradores";
-            case "Conductor"     -> tabla = "conductores";
-            case "Monitor"       -> tabla = "monitores";
-            default -> { return false; }
+        String query = "";
+        if (rol.equals("Conductor")) {
+            query = "SELECT id FROM conductores WHERE correo = ? AND clave = ?";
+        } else if (rol.equals("Administrador")) {
+            query = "SELECT id FROM administradores WHERE correo = ? AND clave = ?";
+        } else if (rol.equals("Monitor")) {
+            query = "SELECT id FROM monitores WHERE correo = ? AND clave = ?";
         }
 
-        // Consulta SQL para verificar si existe un usuario con ese correo y contraseña, dependiendo el rol seleccionado
-        String query = "SELECT * FROM " + tabla + " WHERE correo = ? AND clave = ?";
         try(Connection conexion = ConexionDB.getConnection(); PreparedStatement stmt = conexion.prepareStatement(query)){
             // asocia los parámetros de la consulta con los valores ingresados
             stmt.setString(1, correo);
@@ -114,11 +78,49 @@ public class Login extends JFrame{
             // Ejecuta la consulta
             ResultSet rs = stmt.executeQuery();
             // Si hay resultados, significa que el usuario, contraseña y rol son válidos
-            return rs.next();
+            if (rs.next()) {
+                return rs.getInt(1); // devuelve el ID correspondiente
+            }
+
         } catch (SQLException e) {
             // Si ocurre un error en la conexión o la consulta, imprime el error y devuelve false
             System.out.println("Error: "+e.getMessage());
             return false;
+        }
+    }
+
+    private void iniciarSesion(String correo, String clave, String rol){
+        if (correo.isEmpty() || clave.isEmpty()) {
+            JOptionPane.showMessageDialog(Login, "Por favor, ingrese los datos solicitados.");
+            return;
+        }
+
+        if (rolSeleccionado == null) {
+            JOptionPane.showMessageDialog(Login, "Por favor, selecciona un rol.");
+            return;
+        }
+
+        int id = validarLogin(correo, clave, rolSeleccionado);
+
+        if (id != -1) {
+            JOptionPane.showMessageDialog(Login, "Inicio de sesión exitoso como " + rolSeleccionado);
+
+            switch (rolSeleccionado) {
+                case "Administrador" -> {
+                    Administrador admin = new Administrador();
+                    admin.setVisible(true);
+                }
+                case "Conductor" -> {
+                    new Conductor(id).setVisible(true);
+                }
+                case "Monitor" -> {
+                    new MonitorDeRuta(id).setVisible(true);
+                }
+            }
+
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Credenciales incorrectas o rol inválido.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
