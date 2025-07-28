@@ -429,7 +429,7 @@
                   </component>
                   <component id="d842f" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="19" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="23" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
@@ -440,7 +440,7 @@
                   </component>
                   <component id="492c3" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="23" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="27" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
@@ -451,7 +451,7 @@
                   </component>
                   <component id="32c" class="javax.swing.JComboBox" binding="estadoRutaComboBox">
                     <constraints>
-                      <grid row="25" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="29" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="1.0" weighty="1.0" ipady="10"/>
                     </constraints>
                     <properties>
@@ -517,19 +517,19 @@
                   </vspacer>
                   <vspacer id="8f129">
                     <constraints>
-                      <grid row="20" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="24" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </vspacer>
                   <vspacer id="a564e">
                     <constraints>
-                      <grid row="22" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="26" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </vspacer>
                   <vspacer id="2e378">
                     <constraints>
-                      <grid row="24" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="28" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </vspacer>
@@ -553,7 +553,7 @@
                   </hspacer>
                   <vspacer id="b18b1">
                     <constraints>
-                      <grid row="26" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <grid row="30" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
                     </constraints>
                   </vspacer>
@@ -573,20 +573,50 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </hspacer>
-                  <component id="8772c" class="javax.swing.JComboBox" binding="conductoComboBox">
+                  <component id="8772c" class="javax.swing.JComboBox" binding="conductorComboBox">
                     <constraints>
                       <grid row="17" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
                     </constraints>
                     <properties/>
                   </component>
-                  <component id="6147e" class="javax.swing.JTextField" binding="vehiculoTextField">
+                  <component id="6147e" class="javax.swing.JTextField" binding="placaVehiculoTextField">
+                    <constraints>
+                      <grid row="25" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="1ab18" class="javax.swing.JComboBox" binding="monitorComboBox">
                     <constraints>
                       <grid row="21" column="1" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipady="10"/>
                     </constraints>
                     <properties/>
                   </component>
+                  <component id="836a5" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="19" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Monitor"/>
+                    </properties>
+                  </component>
+                  <vspacer id="f0e5">
+                    <constraints>
+                      <grid row="20" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                  </vspacer>
+                  <vspacer id="7533f">
+                    <constraints>
+                      <grid row="22" column="1" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                  </vspacer>
                 </children>
               </grid>
               <grid id="70e87" binding="configuracionExtra" layout-manager="GridBagLayout">
@@ -741,6 +771,7 @@
                     </constraints>
                     <properties>
                       <model>
+                        <item value=""/>
                         <item value="Lunes"/>
                         <item value="Martes"/>
                         <item value="Miercoles"/>

@@ -32,8 +32,8 @@ public class Administrador extends JFrame{
     private JButton reportesButton;
     private JButton alertasButton;
     private JPanel nuevaRuta;
-    private JComboBox conductoComboBox;
-    private JTextField vehiculoTextField;
+    private JComboBox conductorComboBox;
+    private JTextField placaVehiculoTextField;
     private JTextField capacidadTextField;
     private JTextField horaLlegadaTextField;
     private JComboBox diaComboBox;
@@ -106,6 +106,7 @@ public class Administrador extends JFrame{
     private JScrollPane alertasScroll;
     private JPanel alertasSinAtenderPanel;
     private JComboBox nRutaComboBox;
+    private JComboBox monitorComboBox;
 
     public Administrador(){
         setContentPane(Principal);
@@ -158,6 +159,8 @@ public class Administrador extends JFrame{
         // Cargar datos
         cargarRutasEstudiantes();
         cargarRutasDashboard();
+        cargarConductoresRutas();
+        cargarMonitoresRutas();
 
         gestionDeRutasButton.addActionListener(new ActionListener() {
             @Override
@@ -228,8 +231,8 @@ public class Administrador extends JFrame{
                 nombreRutaTextField.setText("");
                 origenRutaTextField.setText("");
                 destinoRutaTextField.setText("");
-                conductoComboBox.setSelectedIndex(0);
-                vehiculoTextField.setText("");
+                conductorComboBox.setSelectedIndex(0);
+                placaVehiculoTextField.setText("");
                 estadoRutaComboBox.setSelectedIndex(0);
             }
         });
@@ -256,12 +259,39 @@ public class Administrador extends JFrame{
                 registrarConductores();
             }
         });
+
+        // Sección: registro de rutas
+
+        guardarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registrarRutas();
+            }
+        });
+
+        limpiarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nombreRutaTextField.setText("");
+                origenRutaTextField.setText("");
+                destinoRutaTextField.setText("");
+                placaVehiculoTextField.setText("");
+                estadoRutaComboBox.setSelectedIndex(0);
+                capacidadTextField.setText("");
+                diaComboBox.setSelectedIndex(0);
+                horaSalidaTextField.setText("");
+                horaLlegadaTextField.setText("");
+                conductorComboBox.setSelectedIndex(0);
+            }
+        });
     }
 
     public void mostrarCarta(String nombreCarta) {
         CardLayout cl = (CardLayout) Cards.getLayout();
         cl.show(Cards, nombreCarta);
     }
+
+    // metodo para registrar estudiantes
 
     public void registrarEstudiante(){
         String nombres = nombresTextField.getText().trim();
@@ -314,6 +344,8 @@ public class Administrador extends JFrame{
 
     }
 
+    // metodo para registrar conductores
+
     public void registrarConductores(){
         String nombres = nombresConductorTextField.getText().trim();
         String apellidos = apellidosConductorTextField.getText().trim();
@@ -354,7 +386,77 @@ public class Administrador extends JFrame{
         cargarConductoresRegistro();
     }
 
-    // cargar la lista de conductores
+    // metodo para registrar rutas
+
+    public void registrarRutas(){
+        String nombre_ruta = nombreRutaTextField.getText().trim();
+        String origen = origenRutaTextField.getText().trim();
+        String destino = destinoRutaTextField.getText().trim();
+        String conductor = (String) conductorComboBox.getSelectedItem();
+        String monitor = (String) monitorComboBox.getSelectedItem();
+        String placa = placaVehiculoTextField.getText();
+        String estado = (String) estadoRutaComboBox.getSelectedItem();
+        String capacidad_max = capacidadTextField.getText();
+        String dia = (String) diaComboBox.getSelectedItem();
+        String hora_salida = horaSalidaTextField.getText();
+        String hora_llegada = horaLlegadaTextField.getText();
+
+
+
+        if(nombre_ruta.isEmpty() || origen.isEmpty() || destino.isEmpty() || conductor.isEmpty() || monitor.isEmpty() || placa.isEmpty()
+                || estado.isEmpty() || capacidad_max.isEmpty() || dia.isEmpty() || hora_salida.isEmpty() || hora_llegada.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+            return;
+        }
+
+        int capacidad;
+        try {
+            capacidad = Integer.parseInt(capacidad_max);
+        }catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null,"La capacidad debe ser un número entero.");
+            return;
+        }
+        if (capacidad>30){
+            JOptionPane.showMessageDialog(null,"El transporte no debe exceder 30 usuarios de capacidad.");
+            return;
+        }
+        if (capacidad<0) {
+            JOptionPane.showMessageDialog(null,"La capacidad no puede ser negativa.");
+            return;
+        }
+
+        // extraer el ID del monitor para agregarlo correctamente en la base.
+        int monitorID = Integer.parseInt(monitor.split(" - ")[0]);
+
+        // extraer el ID del conductor para agregarlo correctamente en la base.
+        int conductorID = Integer.parseInt(conductor.split(" - ")[0]);
+
+        String query = "INSERT INTO rutas (nombre_ruta, origen, destino, capacidad_max, dia, hora_salida, hora_llegada, monitor_id, conductor_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query)){
+            ps.setString(1, nombre_ruta);
+            ps.setString(2, origen);
+            ps.setString(3, destino);
+            ps.setInt(4, capacidad);
+            ps.setString(5, dia);
+            ps.setString(6, hora_salida);
+            ps.setString(7, hora_llegada);
+            ps.setInt(8,monitorID);
+            ps.setInt(9, conductorID);
+
+            int resultado = ps.executeUpdate();
+
+            if (resultado>0){
+                JOptionPane.showMessageDialog(null,"Ruta registrada exitosamente.");
+            }else {
+                JOptionPane.showMessageDialog(null,"Error al registrar ruta.");
+            }
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
+        }
+    }
+
+    // cargar la lista de conductores en Registro Conductores
     public void cargarConductoresRegistro(){
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre");
@@ -384,7 +486,7 @@ public class Administrador extends JFrame{
         }
     }
 
-    // para cargar rutas al momento de registrar estudiantes
+    // Cargar rutas al momento de registrar estudiantes
     public void cargarRutasEstudiantes(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement("SELECT id, nombre_ruta FROM rutas");
@@ -405,6 +507,49 @@ public class Administrador extends JFrame{
         }
     }
 
+    // Cargar conductores al momento de registrar una nueva ruta
+    public void cargarConductoresRutas(){
+        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM conductores");
+             ResultSet rs = ps.executeQuery()) {
+
+            conductorComboBox.removeAllItems();
+            conductorComboBox.addItem("");
+
+            while(rs.next()){
+                // se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de conductores
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                conductorComboBox.addItem(id + " - " + nombre);
+            }
+
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar conductores: " + e.getMessage());
+        }
+    }
+
+    // Cargar monitores al momento de registrar una nueva ruta
+    public void cargarMonitoresRutas(){
+        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM monitores");
+             ResultSet rs = ps.executeQuery()) {
+
+            monitorComboBox.removeAllItems();
+            monitorComboBox.addItem("");
+
+            while(rs.next()){
+                // se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de monitores
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                monitorComboBox.addItem(id + " - " + nombre);
+            }
+
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar monitores: " + e.getMessage());
+        }
+    }
+
+    // metodo para cargar rutas en el dashboard
     public void cargarRutasDashboard(){
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Ruta");
