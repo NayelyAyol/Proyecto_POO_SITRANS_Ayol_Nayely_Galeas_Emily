@@ -211,7 +211,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                   </hspacer>
-                  <component id="a9205" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+                  <component id="a9205" class="javax.swing.JComboBox" binding="estadoRutacomboBox">
                     <constraints>
                       <grid row="6" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="0.0" ipadx="100" ipady="7"/>
@@ -274,7 +274,7 @@
                   </vspacer>
                 </children>
               </grid>
-              <component id="cabc" class="javax.swing.JTextField" binding="rutaAsignadatextField">
+              <component id="e87b2" class="javax.swing.JComboBox" binding="rutaAsignadaComboBox">
                 <constraints>
                   <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
