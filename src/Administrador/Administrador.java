@@ -17,7 +17,6 @@ import java.sql.*;
  *
  * @author Ayol Nayely, Galeas Emily
  */
-
 public class Administrador extends JFrame{
     private JPanel Principal;
     private JPanel rutasAct;
@@ -196,7 +195,6 @@ public class Administrador extends JFrame{
         cargarConductoresRutas();
         cargarMonitoresRutas();
 
-
         /*
          * Configuración de todos los ActionListener para el boton del cierre se sesion (encabezado).
          * Cada botón tiene su funcionalidad específica definida.
@@ -290,7 +288,6 @@ public class Administrador extends JFrame{
             }
         });
 
-
         /*
          * Configuración de todos los ActionListener para los botones de la Carta Registrar_Estudiantes.
          * Cada botón tiene su funcionalidad específica definida.
@@ -306,6 +303,15 @@ public class Administrador extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 registrarEstudiante();
                 cargarEstudiantes(); //Actualiza la tabla después del registro
+            }
+        });
+
+        //Botón para eliminar un estudiante
+        eliminarListaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarRegistroEstudiante();
+                cargarEstudiantes();
             }
         });
 
@@ -337,29 +343,6 @@ public class Administrador extends JFrame{
          * Configuración de todos los ActionListener para los botones de la Carta Gestión de rutas.
          * Cada botón tiene su funcionalidad específica definida.
          */
-
-        //Botón para limpiar los campos
-        limpiarRutasButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nombreRutaTextField.setText("");
-                origenRutaTextField.setText("");
-                destinoRutaTextField.setText("");
-                conductorComboBox.setSelectedIndex(0);
-                placaVehiculoTextField.setText("");
-                estadoRutaComboBox.setSelectedIndex(0);
-            }
-        });
-
-
-        registrarConductorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registrarConductores();
-            }
-        });
-
-        // Sección: registro de rutas
 
         //Botón para guardar ruta
         guardarRutasButton.addActionListener(new ActionListener() {
@@ -397,6 +380,22 @@ public class Administrador extends JFrame{
                 conductorComboBox.setSelectedIndex(0);
             }
         });
+
+        // SECCION CONDUCTORES
+        registrarConductorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                registrarConductores();
+            }
+        });
+
+        eliminarConductorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarRegistroConductor();
+                cargarConductoresRegistro();
+            }
+        });
     }
 
     /**
@@ -406,6 +405,94 @@ public class Administrador extends JFrame{
     public void mostrarCarta(String nombreCarta) {
         CardLayout cl = (CardLayout) Cards.getLayout();
         cl.show(Cards, nombreCarta);
+    }
+
+    // SECCION CONDUCTORES
+
+    // cargar la lista de conductores en Registro Conductores
+    public void cargarConductoresRegistro(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Telefono");
+        modelo.addColumn("Correo");
+        modelo.addColumn("Licencia");
+
+        String query = "SELECT id, concat(nombres, ' ', apellidos) as nombre, telefono, correo, n_licencia from conductores";
+
+        try (Connection conexion = ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Object[] fila = new Object[5];
+                fila[0] = rs.getString("id");
+                fila[1] = rs.getString("nombre");
+                fila[2] = rs.getString("telefono");
+                fila[3] = rs.getString("correo");
+                fila[4] = rs.getString("n_licencia");
+                modelo.addRow(fila);
+            }
+
+            listaConductoresTable.setModel(modelo);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar conductores: " + e.getMessage());
+        }
+    }
+
+    public void eliminarRegistroConductor(){
+        int filaSeleecionada = listaConductoresTable.getSelectedRow();
+
+        if (filaSeleecionada == -1){
+            JOptionPane.showMessageDialog(null,"Selecciona un registro para eliminar.");
+            return;
+        }
+
+        // se extrae el id del estudiante de la fila seleccionada y la columna en donde se encuentra su ID
+        int conductorID = (int) listaConductoresTable.getValueAt(filaSeleecionada,0);
+
+        int confirmacion = JOptionPane.showConfirmDialog(null,"¿Estás seguro de eliminar este registro?","Confirmar",JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try (Connection conexion = ConexionDB.getConnection();
+                 PreparedStatement ps = conexion.prepareStatement("DELETE FROM conductores WHERE id = ?")) {
+
+                ps.setInt(1, conductorID);
+                int resultado = ps.executeUpdate();
+
+                if (resultado > 0) {
+                    JOptionPane.showMessageDialog(null, "Conductor eliminado correctamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo eliminar el conductor.");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error de base de datos: " + ex.getMessage());
+            }
+        }
+    }
+
+    // SECCION ESTUDIANTES
+
+    // Cargar rutas al momento de registrar estudiantes
+    public void cargarRutasEstudiantes(){
+        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement("SELECT id, nombre_ruta FROM rutas");
+             ResultSet rs = ps.executeQuery()) {
+
+            nRutaComboBox.removeAllItems();
+            nRutaComboBox.addItem("");
+
+            while(rs.next()){
+                // agrega el texto con id y nombre para que se vea y poder extraer el id de la ruta en la base de datos
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre_ruta");
+                nRutaComboBox.addItem(id + " - " + nombre);
+            }
+
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar rutas: " + e.getMessage());
+        }
     }
 
     /**
@@ -471,61 +558,82 @@ public class Administrador extends JFrame{
             //Manejo de errores de base de datos
             JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
         }
-
     }
 
-    /**
-     * Registra un nuevo conductor en la base de datos.
-     * Valida que todos los campos estén completos y ejecuta la inserción.
-     * Después del registro actualiza la lista de conductores mostrada.
-     *
-     * @throws SQLException si ocurre un error durante la inserción en la base de datos
-     */
-    public void registrarConductores(){
-        //Se obtiene y limpia los datos de los campos
-        String nombres = nombresConductorTextField.getText().trim();
-        String apellidos = apellidosConductorTextField.getText().trim();
-        String cedula = cedulaConductorTextField.getText().trim();
-        String telefono = telefonoConductorTextField.getText().trim();
-        String correo = correoConductorTextField.getText().trim();
-        String clave = String.valueOf(conductorContraseniaPasswordField.getPassword());
-        String n_licencia = numeroLicenciaTextField.getText().trim();
-        String tipo_sangre = (String) tipoSangreComboBox.getSelectedItem();
+    // metodo para eliminar el registro de un estudiante
+    public void eliminarRegistroEstudiante(){
+        int filaSeleecionada = listaEstudiantestable.getSelectedRow();
 
-        //Validación para que los campos esten completos
-        if (nombres.isEmpty() || apellidos.isEmpty() || cedula.isEmpty() || telefono.isEmpty() || correo.isEmpty() || clave.isEmpty() || n_licencia.isEmpty() || tipo_sangre.isEmpty()){
-            JOptionPane.showMessageDialog(null,"Por favor, llene los campos.");
+        if (filaSeleecionada == -1){
+            JOptionPane.showMessageDialog(null,"Selecciona un registro para eliminar.");
             return;
         }
 
-        //Query SQL para insertar el nuevo conductor
-        String query = "INSERT INTO conductores (nombres, apellidos, cedula, telefono, correo, clave, n_licencia, tipo_sangre ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        // se extrae el id del estudiante de la fila seleccionada y la columna en donde se encuentra su ID
+        int estudianteID = (int) listaEstudiantestable.getValueAt(filaSeleecionada,0);
 
-        //Se ejecuta la inserción
-        try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query)){
-            //Se asignan los parámetros
-            ps.setString(1, nombres);
-            ps.setString(2, apellidos);
-            ps.setString(3, cedula);
-            ps.setString(4, telefono);
-            ps.setString(5, correo);
-            ps.setString(6, clave);
-            ps.setString(7, n_licencia);
-            ps.setString(8, tipo_sangre);
+        int confirmacion = JOptionPane.showConfirmDialog(null,"¿Estás seguro de eliminar este registro?","Confirmar",JOptionPane.YES_NO_OPTION);
 
-            int resultado = ps.executeUpdate();
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            try (Connection conexion = ConexionDB.getConnection();
+                 PreparedStatement ps = conexion.prepareStatement("DELETE FROM estudiantes WHERE id = ?")) {
 
-            //Se verifica el resultado
-            if (resultado>0){
-                JOptionPane.showMessageDialog(null,"Conductor registrado exitosamente.");
-            }else {
-                JOptionPane.showMessageDialog(null,"Error al registrar conductor.");
+                ps.setInt(1, estudianteID);
+                int resultado = ps.executeUpdate();
+
+                if (resultado > 0) {
+                    JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se pudo eliminar el estudiante.");
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Error de base de datos: " + ex.getMessage());
             }
-        }catch (SQLException e){
-            JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
         }
-        //Se actualiza la lista de conductores después del registro
-        cargarConductoresRegistro();
+    }
+
+    // SECCION RUTAS
+
+    // Cargar conductores al momento de registrar una nueva ruta
+    public void cargarConductoresRutas(){
+        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM conductores");
+             ResultSet rs = ps.executeQuery()) {
+
+            conductorComboBox.removeAllItems();
+            conductorComboBox.addItem("");
+
+            while(rs.next()){
+                // se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de conductores
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                conductorComboBox.addItem(id + " - " + nombre);
+            }
+
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar conductores: " + e.getMessage());
+        }
+    }
+
+    // Cargar monitores al momento de registrar una nueva ruta
+    public void cargarMonitoresRutas(){
+        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM monitores");
+             ResultSet rs = ps.executeQuery()) {
+
+            monitorComboBox.removeAllItems();
+            monitorComboBox.addItem("");
+
+            while(rs.next()){
+                // se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de monitores
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                monitorComboBox.addItem(id + " - " + nombre);
+            }
+
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(this, "Error al cargar monitores: " + e.getMessage());
+        }
     }
 
     /**
@@ -614,110 +722,9 @@ public class Administrador extends JFrame{
         }
     }
 
-    //Se carga y muestra la lista de conductores registrados en el sistema.
-    public void cargarConductoresRegistro(){
-        //Crea un nuevo modelo de tabla y define las columnas que se mostrarán
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Telefono");
-        modelo.addColumn("Correo");
-        modelo.addColumn("Licencia");
-
-        //Query que utiliza CONCAT para combinar nombres y apellidos en una sola columna
-        String query = "SELECT concat(nombres, ' ', apellidos) as nombre, telefono, correo, n_licencia from conductores";
-
-        try (Connection conexion = ConexionDB.getConnection();
-             PreparedStatement ps = conexion.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
-
-            //Itera sobre todos los registros devueltos por la consulta
-            while (rs.next()) {
-                Object[] fila = new Object[4];
-                fila[0] = rs.getString("nombre");
-                fila[1] = rs.getString("telefono");
-                fila[2] = rs.getString("correo");
-                fila[3] = rs.getString("n_licencia");
-                //Agrega la fila completa al modelo de la tabla
-                modelo.addRow(fila);
-            }
-
-            listaConductoresTable.setModel(modelo);
-
-        } catch (SQLException e) {
-            //Manejo de errores de SQL
-            JOptionPane.showMessageDialog(this, "Error al cargar rutas: " + e.getMessage());
-        }
-    }
-
-    // Cargar rutas al momento de registrar estudiantes
-    public void cargarRutasEstudiantes(){
-        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
-             PreparedStatement ps = conexion.prepareStatement("SELECT id, nombre_ruta FROM rutas");
-             ResultSet rs = ps.executeQuery()) {
-
-            nRutaComboBox.removeAllItems();
-            nRutaComboBox.addItem("");
-
-            while(rs.next()){
-                //Agrega el texto con ID y nombre para que se vea y poder extraer el id de la ruta en la base de datos
-                int id = rs.getInt("id");
-                String nombre = rs.getString("nombre_ruta");
-                nRutaComboBox.addItem(id + " - " + nombre);
-            }
-
-        } catch (Exception e){
-            JOptionPane.showMessageDialog(this, "Error al cargar rutas: " + e.getMessage());
-        }
-    }
-
-    // Cargar conductores al momento de registrar una nueva ruta
-    public void cargarConductoresRutas(){
-        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
-             PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM conductores");
-             ResultSet rs = ps.executeQuery()) {
-
-            //Se limpian los elementos previos para evitar duplicados
-            conductorComboBox.removeAllItems();
-            //Agrega opción vacía para indicar "sin selección"
-            conductorComboBox.addItem("");
-
-            //Itera sobre todos los conductores disponibles en el sistema
-            while(rs.next()){
-                //Se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de conductores
-                int id = rs.getInt("id");
-                String nombre = rs.getString("nombre");
-                conductorComboBox.addItem(id + " - " + nombre);
-            }
-
-        } catch (Exception e){
-            JOptionPane.showMessageDialog(this, "Error al cargar conductores: " + e.getMessage());
-        }
-    }
-
-    //Cargar monitores al momento de registrar una nueva ruta
-    public void cargarMonitoresRutas(){
-        try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
-             PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM monitores");
-             ResultSet rs = ps.executeQuery()) {
-
-            monitorComboBox.removeAllItems();
-            monitorComboBox.addItem("");
-
-            while(rs.next()){
-                //Se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de monitores
-                int id = rs.getInt("id");
-                String nombre = rs.getString("nombre");
-                monitorComboBox.addItem(id + " - " + nombre);
-            }
-
-        } catch (Exception e){
-            JOptionPane.showMessageDialog(this, "Error al cargar monitores: " + e.getMessage());
-        }
-    }
-
-    //Método para cargar rutas en el dashboard
+    // SECCION DASHBOARD
+    // metodo para cargar rutas en el dashboard
     public void cargarRutasDashboard(){
-        //Se crea un modelo de tabla específico para la vista de dashboard
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Ruta");
         modelo.addColumn("Origen");
@@ -725,29 +732,26 @@ public class Administrador extends JFrame{
         modelo.addColumn("Dia");
         modelo.addColumn("Hora Salida");
         modelo.addColumn("Hora Llegada");
+        modelo.addColumn("Estado Actual");
 
-        //Query selectiva que obtiene solo los campos necesarios para la vista de dashboar
-        String query = "SELECT nombre_ruta, origen, destino, dia, hora_salida, hora_llegada from rutas";
+        String query = "SELECT nombre_ruta, origen, destino, dia, hora_salida, hora_llegada, estado_actual from rutas";
 
         try (Connection conexion = ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
-            //Procesa cada ruta para incluirla en la vista de dashboard
             while (rs.next()) {
-                Object[] fila = new Object[6];
+                Object[] fila = new Object[7];
                 fila[0] = rs.getString("nombre_ruta");
                 fila[1] = rs.getString("origen");
                 fila[2] = rs.getString("destino");
                 fila[3] = rs.getString("dia");
                 fila[4] = rs.getString("hora_salida");
                 fila[5] = rs.getString("hora_llegada");
-
-                //Agrega la fila completa al modelo de datos
+                fila[6] = rs.getString("estado_actual");
                 modelo.addRow(fila);
             }
 
-            //Actualiza la tabla del dashboard con los datos recientes
             rutasDashboardTable.setModel(modelo);
 
         } catch (SQLException e) {
@@ -755,9 +759,8 @@ public class Administrador extends JFrame{
         }
     }
 
-    //Carga la lista completa de estudiantes registrados en el sistema
+    // cargar la lista de estudiantes en la seccion estudiantes
     public void cargarEstudiantes() {
-        //Define un modelo de tabla con todas las columnas necesarias
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nombres");
@@ -770,7 +773,6 @@ public class Administrador extends JFrame{
         modelo.addColumn("Dirección");
         modelo.addColumn("Ruta");
 
-        //Query avanzada que utiliza INNER JOIN para combinar datos de estudiantes con información de rutas
         String query = "SELECT e.id, e.nombres, e.apellidos, e.cedula, e.genero, e.curso, e.telefono, e.correo, e.direccion, r.nombre_ruta " +
                 "FROM estudiantes e INNER JOIN rutas r ON e.ruta_id = r.id";
 
@@ -778,7 +780,6 @@ public class Administrador extends JFrame{
              PreparedStatement ps = conexion.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
-            //Itera sobre cada estudiante encontrado en la consulta
             while (rs.next()) {
                 Object[] fila = new Object[10];
                 fila[0] = rs.getInt("id");
@@ -792,17 +793,67 @@ public class Administrador extends JFrame{
                 fila[8] = rs.getString("direccion");
                 fila[9] = rs.getString("nombre_ruta");
 
-                //Agrega la fila completa con todos los datos al modelo
                 modelo.addRow(fila);
             }
 
-            //Reemplaza cualquier dato anterior con la información actualizada
             listaEstudiantestable.setModel(modelo);
 
         } catch (SQLException e) {
-            //Manejo de errores
             JOptionPane.showMessageDialog(this, "Error al cargar estudiantes: " + e.getMessage());
         }
     }
 
+    /**
+     * Registra un nuevo conductor en la base de datos.
+     * Valida que todos los campos estén completos y ejecuta la inserción.
+     * Después del registro actualiza la lista de conductores mostrada.
+     *
+     * @throws SQLException si ocurre un error durante la inserción en la base de datos
+     */
+    public void registrarConductores(){
+        //Se obtiene y limpia los datos de los campos
+        String nombres = nombresConductorTextField.getText().trim();
+        String apellidos = apellidosConductorTextField.getText().trim();
+        String cedula = cedulaConductorTextField.getText().trim();
+        String telefono = telefonoConductorTextField.getText().trim();
+        String correo = correoConductorTextField.getText().trim();
+        String clave = String.valueOf(conductorContraseniaPasswordField.getPassword());
+        String n_licencia = numeroLicenciaTextField.getText().trim();
+        String tipo_sangre = (String) tipoSangreComboBox.getSelectedItem();
+
+        //Validación para que los campos esten completos
+        if (nombres.isEmpty() || apellidos.isEmpty() || cedula.isEmpty() || telefono.isEmpty() || correo.isEmpty() || clave.isEmpty() || n_licencia.isEmpty() || tipo_sangre.isEmpty()){
+            JOptionPane.showMessageDialog(null,"Por favor, llene los campos.");
+            return;
+        }
+
+        //Query SQL para insertar el nuevo conductor
+        String query = "INSERT INTO conductores (nombres, apellidos, cedula, telefono, correo, clave, n_licencia, tipo_sangre ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        //Se ejecuta la inserción
+        try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query)){
+            //Se asignan los parámetros
+            ps.setString(1, nombres);
+            ps.setString(2, apellidos);
+            ps.setString(3, cedula);
+            ps.setString(4, telefono);
+            ps.setString(5, correo);
+            ps.setString(6, clave);
+            ps.setString(7, n_licencia);
+            ps.setString(8, tipo_sangre);
+
+            int resultado = ps.executeUpdate();
+
+            //Se verifica el resultado
+            if (resultado>0){
+                JOptionPane.showMessageDialog(null,"Conductor registrado exitosamente.");
+            }else {
+                JOptionPane.showMessageDialog(null,"Error al registrar conductor.");
+            }
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
+        }
+        //Se actualiza la lista de conductores después del registro
+        cargarConductoresRegistro();
+    }
 }

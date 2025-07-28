@@ -48,7 +48,8 @@ public class Login extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String correo = correoField.getText();
                 String clave = String.valueOf(contraseniaField.getPassword());
-                iniciarSesion(correo, clave, rolSeleccionado)
+
+                iniciarSesion(correo, clave, rolSeleccionado);
             }
         });
     }
@@ -60,8 +61,7 @@ public class Login extends JFrame{
     }
 
     // metodo para validar el login en la base de datos
-    private boolean validarLogin(String correo, String clave, String rol){
-
+    private int validarLogin(String correo, String clave, String rol) {
         String query = "";
         if (rol.equals("Conductor")) {
             query = "SELECT id FROM conductores WHERE correo = ? AND clave = ?";
@@ -71,22 +71,22 @@ public class Login extends JFrame{
             query = "SELECT id FROM monitores WHERE correo = ? AND clave = ?";
         }
 
-        try(Connection conexion = ConexionDB.getConnection(); PreparedStatement stmt = conexion.prepareStatement(query)){
-            // asocia los parámetros de la consulta con los valores ingresados
+        try (Connection conexion = ConexionDB.getConnection();
+             PreparedStatement stmt = conexion.prepareStatement(query)) {
+
             stmt.setString(1, correo);
             stmt.setString(2, clave);
-            // Ejecuta la consulta
             ResultSet rs = stmt.executeQuery();
-            // Si hay resultados, significa que el usuario, contraseña y rol son válidos
+
             if (rs.next()) {
                 return rs.getInt(1); // devuelve el ID correspondiente
             }
 
         } catch (SQLException e) {
-            // Si ocurre un error en la conexión o la consulta, imprime el error y devuelve false
-            System.out.println("Error: "+e.getMessage());
-            return false;
+            System.out.println("Error: " + e.getMessage());
         }
+
+        return -1; // si no encuentra nada
     }
 
     private void iniciarSesion(String correo, String clave, String rol){
