@@ -30,7 +30,7 @@ public class MonitorDeRuta extends JFrame{
     private JTextArea descripcionTextArea;
     private JButton enviarButton;
 
-    public MonitorDeRuta() {
+    public MonitorDeRuta(int monitorID) {
         setContentPane(Principal);
         setTitle("Monitor de Ruta");
         setExtendedState(MAXIMIZED_BOTH);
