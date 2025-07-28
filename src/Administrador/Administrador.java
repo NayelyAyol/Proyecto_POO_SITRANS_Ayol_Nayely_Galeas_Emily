@@ -2,7 +2,6 @@ package Administrador;
 
 import ConexionMySql.ConexionDB;
 import Login.Login;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +9,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+
+/**
+ * Clase principal del módulo de administración del sistema de transporte escolar.
+ * Permite gestionar rutas, estudiantes, conductores, reportes y alertas.
+ * Implementa la interfaz gráfica usando Java Swing y se conecta con MySQL.
+ *
+ * @author Ayol Nayely, Galeas Emily
+ */
 
 public class Administrador extends JFrame{
     private JPanel Principal;
@@ -40,8 +47,8 @@ public class Administrador extends JFrame{
     private JPanel configuracionExtra;
     private JPanel encabezado;
     private JButton sesionButton;
-    private JButton guardarButton;
-    private JButton limpiarButton;
+    private JButton guardarRutasButton;
+    private JButton limpiarRutasButton;
     private JPanel registrarEstudiantes;
     private JPanel datosPersonales;
     private JPanel informacionContacto;
@@ -108,14 +115,23 @@ public class Administrador extends JFrame{
     private JComboBox nRutaComboBox;
     private JComboBox monitorComboBox;
 
+    /**
+     * Constructor principal de la interfaz de administración.
+     *
+     * @throws SQLException si hay problemas de conexión con la base de datos
+     */
     public Administrador(){
         setContentPane(Principal);
-        setTitle("Administrador");
+        setTitle("Administrador - Sistema de Transporte Escolar");
         setExtendedState(MAXIMIZED_BOTH);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE); // Maximiza la ventana
         setLocationRelativeTo(null);
         setVisible(true);
 
+        /*
+         * Se configura el CardLayout para manejar las diferentes pantallas.
+         * Cada "carta" representa una funcionalidad diferente del sistema.
+         */
         Cards.setLayout(new CardLayout());
         Cards.add(Dashboard, "dashboard");
         Cards.add(registrarRutas, "rutas");
@@ -124,51 +140,73 @@ public class Administrador extends JFrame{
         Cards.add(reportesPanel, "reportes");
         Cards.add(alertas,"alertas");
 
+        /*
+         * Configuración de bordes para mejorar la apariencia visual.
+         * Distintos colores para distintas secciones
+         */
+
+        //Estilos para la barra de navegación
         Barra_navegacion.setBorder(new LineBorder(new Color(0,0,0),1));
+
+        //Estilos para el encabezado
         encabezado.setBorder(new LineBorder(new Color(0,0,0),1));
+        sesionButton.setBorder(null);
+
+        //Estilos para los componentes de la Carta Dashboard
         rutasAct.setBorder(new LineBorder(new Color(206,255,253), 4));
         estuReg.setBorder(new LineBorder(new Color(206,255,253), 4));
         alertPen.setBorder(new LineBorder(new Color(206,255,253), 4));
         eficienciaPro.setBorder(new LineBorder(new Color(206,255,253), 4));
+
+        //Estilos para la Carta Registrar_Rutas
         nuevaRuta.setBorder(new LineBorder(new Color(206,255,253),4));
         configuracionExtra.setBorder(new LineBorder(new Color(206,255,253),4));
-        sesionButton.setBorder(null);
-        guardarButton.setBorder(new LineBorder(new Color(0,0,0),2));
-        limpiarButton.setBorder(new LineBorder(new Color(0,0,0),2));
+        guardarRutasButton.setBorder(new LineBorder(new Color(0,0,0),2));
+        limpiarRutasButton.setBorder(new LineBorder(new Color(0,0,0),2));
+
+        //Estilos para la Carta Registrar_Estudiantes
         registrarEtdButton.setBorder(new LineBorder(new Color(0,0,0),2));
         limpiarEtdButton.setBorder(new LineBorder(new Color(0,0,0),2));
         eliminarListaButton.setBorder(new LineBorder(new Color(0,0,0),2));
         datosPersonales.setBorder(new LineBorder(new Color(206,255,253),4));
         informacionContacto.setBorder(new LineBorder(new Color(206,255,253),4));
+
+        //Estilos para la Carta Registrar_Conductores
         listaConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
         formularioRegistroConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
         registrarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
         limpiarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
         eliminarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
 
-        //Reportes
+        //Estilos para la Carta Reportes
         totalEstudiantesPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         rutasActivasPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         asistenciaPromedioPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         buscarEstudiantesPanel.setBorder(new LineBorder(new Color(0,0,0),2));
 
-
-        //Alertas
+        //Estilos para la Carta Alertas
         alertasPanel.setBorder(new LineBorder(new Color(206,255,253),4));
 
-        // Cargar datos
+        /*
+         * Carga los datos iniciales necesarios para el funcionamiento del sistema.
+         * Se cargan los ComboBox con información de la base de datos.
+         */
         cargarRutasEstudiantes();
         cargarRutasDashboard();
         cargarConductoresRutas();
         cargarMonitoresRutas();
 
-        gestionDeRutasButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mostrarCarta("rutas");
-            }
-        });
+
+        /*
+         * Configuración de todos los ActionListener para el boton del cierre se sesion (encabezado).
+         * Cada botón tiene su funcionalidad específica definida.
+         */
+        //Botón para cerrar sesión
         sesionButton.addActionListener(new ActionListener() {
+            /**
+             * Muestra confirmación para cerrar sesión y regresa al login.
+             * @param e evento de acción del botón
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 int opcion = JOptionPane.showConfirmDialog(null,  "¿Desea cerrar sesión?",
@@ -176,37 +214,74 @@ public class Administrador extends JFrame{
                         JOptionPane.YES_NO_OPTION
                 );
                 if (opcion == JOptionPane.YES_OPTION){
-                    new Login();
-                    dispose();
+                    new Login(); //Abre ventana de login
+                    dispose(); //Cierra ventana actual
                 }
             }
         });
+
+        /*
+         * Configuración de todos los ActionListener para los botones de la barra de navegación.
+         * Cada botón tiene su funcionalidad específica definida.
+         */
+        gestionDeRutasButton.addActionListener(new ActionListener() {
+            /**
+             * Cambia la vista a la pantalla de gestión de rutas.
+             * @param e evento de acción del botón
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostrarCarta("rutas");
+            }
+        });
+
+        //Botón para la navegación a la carta registrar estudiantes
         estudiantesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cargarEstudiantes();
+                cargarEstudiantes(); //Actualiza la tabla de estudiantes
                 mostrarCarta("estudiantes");
             }
         });
+
+        //Botón para la navegación a la carta de registrar conductores
         registroDeConductoresButton.addActionListener(new ActionListener() {
+            /**
+             * Carga la lista de conductores y cambia a la vista de conductores.
+             * @param e evento de acción del botón
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
-                cargarConductoresRegistro();
+                cargarConductoresRegistro(); //Actualiza la tabla de conductores
                 mostrarCarta("conductores");
             }
         });
+
+        //Botón para la navegación a la carta de reportes
         reportesButton.addActionListener(new ActionListener() {
+            /**
+             * Cambia la vista a la pantalla de reportes.
+             * @param e evento de acción del botón
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("reportes");
             }
         });
+
+        //Botón para la navegación a la carta alertas
         alertasButton.addActionListener(new ActionListener() {
+            /**
+             * Cambia la vista a la pantalla de alertas.
+             * @param e evento de acción del botón
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("alertas");
             }
         });
+
+        //Botón para la navegación a la carta de Dashboard
         dashboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -215,17 +290,56 @@ public class Administrador extends JFrame{
             }
         });
 
-        // boton registrar estudiante
+
+        /*
+         * Configuración de todos los ActionListener para los botones de la Carta Registrar_Estudiantes.
+         * Cada botón tiene su funcionalidad específica definida.
+         */
+
+        //Botón para registrar estudiante
         registrarEtdButton.addActionListener(new ActionListener() {
+            /**
+             * Ejecuta el registro de un nuevo estudiante y actualiza la lista.
+             * @param e evento de acción del botón
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 registrarEstudiante();
-                cargarEstudiantes();
+                cargarEstudiantes(); //Actualiza la tabla después del registro
             }
         });
 
-        // boton limpiar campos en rutas
-        limpiarButton.addActionListener(new ActionListener() {
+        //Botón para limpiar campos de estudiantes
+        limpiarEtdButton.addActionListener(new ActionListener() {
+            /**
+             * Limpia todos los campos del formulario de estudiantes y
+             * resetea los ComboBox a su estado inicial.
+             * @param e evento de acción del botón
+             */
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Limpia todos los campos de texto
+                nombresTextField.setText("");
+                apellidosTextField.setText("");
+                cedulaTextField.setText("");
+                cursoTextField.setText("");
+                telefonoTextField.setText("");
+                correoTextField.setText("");
+                direccionTextField.setText("");
+
+                //Devuelve los ComboBox al primer elemento (vacío)
+                generoComboBox.setSelectedIndex(0);
+                nRutaComboBox.setSelectedIndex(0);
+            }
+        });
+
+        /*
+         * Configuración de todos los ActionListener para los botones de la Carta Gestión de rutas.
+         * Cada botón tiene su funcionalidad específica definida.
+         */
+
+        //Botón para limpiar los campos
+        limpiarRutasButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 nombreRutaTextField.setText("");
@@ -237,21 +351,6 @@ public class Administrador extends JFrame{
             }
         });
 
-        // boton limpiar campos en estudiantes
-        limpiarEtdButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nombresTextField.setText("");
-                apellidosTextField.setText("");
-                cedulaTextField.setText("");
-                cursoTextField.setText("");
-                telefonoTextField.setText("");
-                correoTextField.setText("");
-                direccionTextField.setText("");
-                generoComboBox.setSelectedIndex(0);
-                nRutaComboBox.setSelectedIndex(0);
-            }
-        });
 
         registrarConductorButton.addActionListener(new ActionListener() {
             @Override
@@ -262,38 +361,62 @@ public class Administrador extends JFrame{
 
         // Sección: registro de rutas
 
-        guardarButton.addActionListener(new ActionListener() {
+        //Botón para guardar ruta
+        guardarRutasButton.addActionListener(new ActionListener() {
+            /**
+             * Ejecuta el registro de una nueva ruta.
+             * @param e evento de acción del botón
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 registrarRutas();
             }
         });
 
-        limpiarButton.addActionListener(new ActionListener() {
+        //Botón para limpiar campos de rutas
+        limpiarRutasButton.addActionListener(new ActionListener() {
+            /**
+             * Limpia todos los campos del formulario de rutas.
+             * Este listener maneja tanto el botón de rutas como el general.
+             * @param e evento de acción del botón
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
+                //Se limpian los campos de texto
                 nombreRutaTextField.setText("");
                 origenRutaTextField.setText("");
                 destinoRutaTextField.setText("");
                 placaVehiculoTextField.setText("");
-                estadoRutaComboBox.setSelectedIndex(0);
                 capacidadTextField.setText("");
-                diaComboBox.setSelectedIndex(0);
                 horaSalidaTextField.setText("");
                 horaLlegadaTextField.setText("");
+
+                //Se resetea el ComboBox
+                estadoRutaComboBox.setSelectedIndex(0);
+                diaComboBox.setSelectedIndex(0);
                 conductorComboBox.setSelectedIndex(0);
             }
         });
     }
 
+    /**
+     * Método para cambiar entre las diferentes pantallas del sistema.
+     * Utiliza CardLayout para mostrar la carta específica solicitada.
+     */
     public void mostrarCarta(String nombreCarta) {
         CardLayout cl = (CardLayout) Cards.getLayout();
         cl.show(Cards, nombreCarta);
     }
 
-    // metodo para registrar estudiantes
-
+    /**
+     * Registra un nuevo estudiante en la base de datos.
+     * Valida que todos los campos estén completos para proceder con el registro.
+     * Extrae el ID de la ruta seleccionada y ejecuta la inserción en la base de datos.
+     *
+     * @throws SQLException si ocurre un error durante la inserción en la base de datos
+     */
     public void registrarEstudiante(){
+        //Se obtiene y limpia los datos de los campos de texto
         String nombres = nombresTextField.getText().trim();
         String apellidos = apellidosTextField.getText().trim();
         String cedula = cedulaTextField.getText().trim();
@@ -303,24 +426,28 @@ public class Administrador extends JFrame{
         String correo = correoTextField.getText().trim();
         String direccion = direccionTextField.getText();
 
+        //Validación de campos completos
         if(nombres.isEmpty() || apellidos.isEmpty() || cedula.isEmpty() || genero.isEmpty() || curso.isEmpty()
                 || telefono.isEmpty() || correo.isEmpty() || direccion.isEmpty()){
             JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
             return;
         }
 
+        //Validación de selección de ruta
         if (nRutaComboBox.getSelectedItem() == null){
             JOptionPane.showMessageDialog(null,"Seleccione una ruta válida.");
             return;
         }
 
+        //Se extrae el ID de la ruta del formato "ID - Nombre"
         String ruta = (String) nRutaComboBox.getSelectedItem();
-
         int rutaID = Integer.parseInt(ruta.split(" - ")[0]);
 
+        //Query SQL para insertar el nuevo estudiante
         String query = "INSERT INTO estudiantes (nombres, apellidos, cedula, genero, curso, telefono, correo, direccion, ruta_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query)){
+            //Se asignan los parámetros al PreparedStatement
             ps.setString(1, nombres);
             ps.setString(2, apellidos);
             ps.setString(3, cedula);
@@ -331,22 +458,31 @@ public class Administrador extends JFrame{
             ps.setString(8, direccion);
             ps.setInt(9, rutaID);
 
+            //Ejecuta la inserción
             int resultado = ps.executeUpdate();
 
+            //Verifica el resultado
             if (resultado>0){
                 JOptionPane.showMessageDialog(null,"Estudiante registrado exitosamente.");
             }else {
                 JOptionPane.showMessageDialog(null,"Error al registrar estudiante.");
             }
         }catch (SQLException e){
+            //Manejo de errores de base de datos
             JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
         }
 
     }
 
-    // metodo para registrar conductores
-
+    /**
+     * Registra un nuevo conductor en la base de datos.
+     * Valida que todos los campos estén completos y ejecuta la inserción.
+     * Después del registro actualiza la lista de conductores mostrada.
+     *
+     * @throws SQLException si ocurre un error durante la inserción en la base de datos
+     */
     public void registrarConductores(){
+        //Se obtiene y limpia los datos de los campos
         String nombres = nombresConductorTextField.getText().trim();
         String apellidos = apellidosConductorTextField.getText().trim();
         String cedula = cedulaConductorTextField.getText().trim();
@@ -356,14 +492,18 @@ public class Administrador extends JFrame{
         String n_licencia = numeroLicenciaTextField.getText().trim();
         String tipo_sangre = (String) tipoSangreComboBox.getSelectedItem();
 
+        //Validación para que los campos esten completos
         if (nombres.isEmpty() || apellidos.isEmpty() || cedula.isEmpty() || telefono.isEmpty() || correo.isEmpty() || clave.isEmpty() || n_licencia.isEmpty() || tipo_sangre.isEmpty()){
             JOptionPane.showMessageDialog(null,"Por favor, llene los campos.");
             return;
         }
 
+        //Query SQL para insertar el nuevo conductor
         String query = "INSERT INTO conductores (nombres, apellidos, cedula, telefono, correo, clave, n_licencia, tipo_sangre ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
+        //Se ejecuta la inserción
         try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query)){
+            //Se asignan los parámetros
             ps.setString(1, nombres);
             ps.setString(2, apellidos);
             ps.setString(3, cedula);
@@ -375,6 +515,7 @@ public class Administrador extends JFrame{
 
             int resultado = ps.executeUpdate();
 
+            //Se verifica el resultado
             if (resultado>0){
                 JOptionPane.showMessageDialog(null,"Conductor registrado exitosamente.");
             }else {
@@ -383,12 +524,19 @@ public class Administrador extends JFrame{
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
         }
+        //Se actualiza la lista de conductores después del registro
         cargarConductoresRegistro();
     }
 
-    // metodo para registrar rutas
-
+    /**
+     * Registra una nueva ruta en la base de datos del sistema de transporte escolar.
+     * Este método valida todos los campos obligatorios del formulario
+     * @throws SQLException si ocurre un error durante la inserción en la base de datos
+     * @throws NumberFormatException si la capacidad ingresada no es un número válido
+     * @throws ArrayIndexOutOfBoundsException si los ComboBox no tienen el formato esperado "ID - Nombre"
+     */
     public void registrarRutas(){
+        //Se obtiene y limpia los datos de los campos
         String nombre_ruta = nombreRutaTextField.getText().trim();
         String origen = origenRutaTextField.getText().trim();
         String destino = destinoRutaTextField.getText().trim();
@@ -401,8 +549,7 @@ public class Administrador extends JFrame{
         String hora_salida = horaSalidaTextField.getText();
         String hora_llegada = horaLlegadaTextField.getText();
 
-
-
+        //Validacion para que los campos esten completos
         if(nombre_ruta.isEmpty() || origen.isEmpty() || destino.isEmpty() || conductor.isEmpty() || monitor.isEmpty() || placa.isEmpty()
                 || estado.isEmpty() || capacidad_max.isEmpty() || dia.isEmpty() || hora_salida.isEmpty() || hora_llegada.isEmpty()){
             JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
@@ -411,29 +558,37 @@ public class Administrador extends JFrame{
 
         int capacidad;
         try {
+            //Se convierte la capacidad de String a entero
             capacidad = Integer.parseInt(capacidad_max);
         }catch (NumberFormatException ex){
+            //Captura de errores cuando el usuario ingresa texto no numérico
             JOptionPane.showMessageDialog(null,"La capacidad debe ser un número entero.");
             return;
         }
+
+        //Validación del límite máximo de capacidad
         if (capacidad>30){
             JOptionPane.showMessageDialog(null,"El transporte no debe exceder 30 usuarios de capacidad.");
             return;
         }
+
+        //Validación de la capacidad mínima
         if (capacidad<0) {
             JOptionPane.showMessageDialog(null,"La capacidad no puede ser negativa.");
             return;
         }
 
-        // extraer el ID del monitor para agregarlo correctamente en la base.
+        //Se extrae el ID del monitor para agregarlo correctamente en la base.
         int monitorID = Integer.parseInt(monitor.split(" - ")[0]);
 
-        // extraer el ID del conductor para agregarlo correctamente en la base.
+        //Se extrae el ID del conductor para agregarlo correctamente en la base.
         int conductorID = Integer.parseInt(conductor.split(" - ")[0]);
 
+        //Query para insertar una nueva ruta
         String query = "INSERT INTO rutas (nombre_ruta, origen, destino, capacidad_max, dia, hora_salida, hora_llegada, monitor_id, conductor_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query)){
+            //Asignación de parámetros
             ps.setString(1, nombre_ruta);
             ps.setString(2, origen);
             ps.setString(3, destino);
@@ -444,44 +599,52 @@ public class Administrador extends JFrame{
             ps.setInt(8,monitorID);
             ps.setInt(9, conductorID);
 
+            //Un valor > 0 indica que la inserción fue exitosa
             int resultado = ps.executeUpdate();
 
+            //Se informa al usuario que la ruta fue registrada correctamente en el sistema
             if (resultado>0){
                 JOptionPane.showMessageDialog(null,"Ruta registrada exitosamente.");
             }else {
                 JOptionPane.showMessageDialog(null,"Error al registrar ruta.");
             }
         }catch (SQLException e){
+            //Manejo de errores
             JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
         }
     }
 
-    // cargar la lista de conductores en Registro Conductores
+    //Se carga y muestra la lista de conductores registrados en el sistema.
     public void cargarConductoresRegistro(){
+        //Crea un nuevo modelo de tabla y define las columnas que se mostrarán
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Nombre");
         modelo.addColumn("Telefono");
         modelo.addColumn("Correo");
         modelo.addColumn("Licencia");
 
+        //Query que utiliza CONCAT para combinar nombres y apellidos en una sola columna
         String query = "SELECT concat(nombres, ' ', apellidos) as nombre, telefono, correo, n_licencia from conductores";
 
         try (Connection conexion = ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
+            //Itera sobre todos los registros devueltos por la consulta
             while (rs.next()) {
                 Object[] fila = new Object[4];
                 fila[0] = rs.getString("nombre");
                 fila[1] = rs.getString("telefono");
                 fila[2] = rs.getString("correo");
                 fila[3] = rs.getString("n_licencia");
+                //Agrega la fila completa al modelo de la tabla
                 modelo.addRow(fila);
             }
 
             listaConductoresTable.setModel(modelo);
 
         } catch (SQLException e) {
+            //Manejo de errores de SQL
             JOptionPane.showMessageDialog(this, "Error al cargar rutas: " + e.getMessage());
         }
     }
@@ -496,7 +659,7 @@ public class Administrador extends JFrame{
             nRutaComboBox.addItem("");
 
             while(rs.next()){
-                // agrega el texto con id y nombre para que se vea y poder extraer el id de la ruta en la base de datos
+                //Agrega el texto con ID y nombre para que se vea y poder extraer el id de la ruta en la base de datos
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre_ruta");
                 nRutaComboBox.addItem(id + " - " + nombre);
@@ -513,11 +676,14 @@ public class Administrador extends JFrame{
              PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM conductores");
              ResultSet rs = ps.executeQuery()) {
 
+            //Se limpian los elementos previos para evitar duplicados
             conductorComboBox.removeAllItems();
+            //Agrega opción vacía para indicar "sin selección"
             conductorComboBox.addItem("");
 
+            //Itera sobre todos los conductores disponibles en el sistema
             while(rs.next()){
-                // se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de conductores
+                //Se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de conductores
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 conductorComboBox.addItem(id + " - " + nombre);
@@ -528,7 +694,7 @@ public class Administrador extends JFrame{
         }
     }
 
-    // Cargar monitores al momento de registrar una nueva ruta
+    //Cargar monitores al momento de registrar una nueva ruta
     public void cargarMonitoresRutas(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM monitores");
@@ -538,7 +704,7 @@ public class Administrador extends JFrame{
             monitorComboBox.addItem("");
 
             while(rs.next()){
-                // se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de monitores
+                //Se extrae el id y nombre de la consulta del query para mostrarlo en el combo box de monitores
                 int id = rs.getInt("id");
                 String nombre = rs.getString("nombre");
                 monitorComboBox.addItem(id + " - " + nombre);
@@ -549,8 +715,9 @@ public class Administrador extends JFrame{
         }
     }
 
-    // metodo para cargar rutas en el dashboard
+    //Método para cargar rutas en el dashboard
     public void cargarRutasDashboard(){
+        //Se crea un modelo de tabla específico para la vista de dashboard
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Ruta");
         modelo.addColumn("Origen");
@@ -559,12 +726,14 @@ public class Administrador extends JFrame{
         modelo.addColumn("Hora Salida");
         modelo.addColumn("Hora Llegada");
 
+        //Query selectiva que obtiene solo los campos necesarios para la vista de dashboar
         String query = "SELECT nombre_ruta, origen, destino, dia, hora_salida, hora_llegada from rutas";
 
         try (Connection conexion = ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
+            //Procesa cada ruta para incluirla en la vista de dashboard
             while (rs.next()) {
                 Object[] fila = new Object[6];
                 fila[0] = rs.getString("nombre_ruta");
@@ -573,9 +742,12 @@ public class Administrador extends JFrame{
                 fila[3] = rs.getString("dia");
                 fila[4] = rs.getString("hora_salida");
                 fila[5] = rs.getString("hora_llegada");
+
+                //Agrega la fila completa al modelo de datos
                 modelo.addRow(fila);
             }
 
+            //Actualiza la tabla del dashboard con los datos recientes
             rutasDashboardTable.setModel(modelo);
 
         } catch (SQLException e) {
@@ -583,7 +755,9 @@ public class Administrador extends JFrame{
         }
     }
 
+    //Carga la lista completa de estudiantes registrados en el sistema
     public void cargarEstudiantes() {
+        //Define un modelo de tabla con todas las columnas necesarias
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nombres");
@@ -596,6 +770,7 @@ public class Administrador extends JFrame{
         modelo.addColumn("Dirección");
         modelo.addColumn("Ruta");
 
+        //Query avanzada que utiliza INNER JOIN para combinar datos de estudiantes con información de rutas
         String query = "SELECT e.id, e.nombres, e.apellidos, e.cedula, e.genero, e.curso, e.telefono, e.correo, e.direccion, r.nombre_ruta " +
                 "FROM estudiantes e INNER JOIN rutas r ON e.ruta_id = r.id";
 
@@ -603,6 +778,7 @@ public class Administrador extends JFrame{
              PreparedStatement ps = conexion.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
+            //Itera sobre cada estudiante encontrado en la consulta
             while (rs.next()) {
                 Object[] fila = new Object[10];
                 fila[0] = rs.getInt("id");
@@ -616,12 +792,15 @@ public class Administrador extends JFrame{
                 fila[8] = rs.getString("direccion");
                 fila[9] = rs.getString("nombre_ruta");
 
+                //Agrega la fila completa con todos los datos al modelo
                 modelo.addRow(fila);
             }
 
+            //Reemplaza cualquier dato anterior con la información actualizada
             listaEstudiantestable.setModel(modelo);
 
         } catch (SQLException e) {
+            //Manejo de errores
             JOptionPane.showMessageDialog(this, "Error al cargar estudiantes: " + e.getMessage());
         }
     }
