@@ -396,6 +396,20 @@ public class Administrador extends JFrame{
                 cargarConductoresRegistro();
             }
         });
+
+        limpiarConductorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                nombresConductorTextField.setText("");
+                apellidosConductorTextField.setText("");
+                cedulaConductorTextField.setText("");
+                telefonoConductorTextField.setText("");
+                correoConductorTextField.setText("");
+                conductorContraseniaPasswordField.setText("");
+                numeroLicenciaTextField.setText("");
+                tipoSangreComboBox.setSelectedIndex(0);
+            }
+        });
     }
 
     /**
