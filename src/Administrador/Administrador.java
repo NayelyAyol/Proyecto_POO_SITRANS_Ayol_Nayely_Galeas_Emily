@@ -416,8 +416,7 @@ public class Administrador extends JFrame{
         atendidaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                mostrarAlertas();
+                atenderAlerta();
             }
         });
     }
@@ -864,20 +863,21 @@ public class Administrador extends JFrame{
     }
 
     public void mostrarAlertas(){
-        String[] columnas = {"ID", "Ruta","Tipo de Alerta","Descripción"};
+        String[] columnas = {"ID", "Ruta","Tipo de Alerta","Descripción", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
-        String query = "Select a.id, a.tipo, a.descripcion, r.nombre_ruta from alertas a join rutas r on a.ruta_id = r.id";
+        String query = "Select a.id, a.tipo, a.descripcion, a.estado,r.nombre_ruta from alertas a join rutas r on a.ruta_id = r.id";
 
         try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query);
         ResultSet rs = ps.executeQuery()){
 
             while (rs.next()){
-                Object[] fila = new Object[4];
+                Object[] fila = new Object[5];
                 fila[0] = rs.getInt("id");
                 fila[1] = rs.getString("nombre_ruta");
                 fila[2] = rs.getString("tipo");
                 fila[3] = rs.getString("descripcion");
+                fila[4] = rs.getString("estado");
                 modelo.addRow(fila);
             }
             alertasTable.setModel(modelo);
@@ -895,6 +895,25 @@ public class Administrador extends JFrame{
             return;
         }
 
-        String query = "";
+        int idAlerta = (int) alertasTable.getValueAt(registro, 0);
+        String query = "update alertas set estado = 'Atendida' where id = ?";
+
+        try(Connection conexion = ConexionDB.getConnection();
+            PreparedStatement ps = conexion.prepareStatement(query)){
+
+            ps.setInt(1, idAlerta);
+            int filaSeleccionada = ps.executeUpdate();
+
+            if (filaSeleccionada > 0){
+                JOptionPane.showMessageDialog(null, "Alerta marcada como atendida");
+                mostrarAlertas();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Error al actualizar el estado de la alerta");
+            }
+        }catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Error al actualizar la alerta: "+ e.getMessage());
+        }
+
     }
 }

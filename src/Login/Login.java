@@ -83,7 +83,7 @@ public class Login extends JFrame{
             }
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,"Error: " + e.getMessage());
         }
 
         return -1; // si no encuentra nada
