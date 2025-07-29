@@ -194,6 +194,7 @@ public class Administrador extends JFrame{
         cargarRutasDashboard();
         cargarConductoresRutas();
         cargarMonitoresRutas();
+        mostrarAlertas();
 
         /*
          * Configuración de todos los ActionListener para el boton del cierre se sesion (encabezado).
@@ -411,6 +412,14 @@ public class Administrador extends JFrame{
                 tipoSangreComboBox.setSelectedIndex(0);
             }
         });
+
+        atendidaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                mostrarAlertas();
+            }
+        });
     }
 
     /**
@@ -426,12 +435,8 @@ public class Administrador extends JFrame{
 
     // cargar la lista de conductores en Registro Conductores
     public void cargarConductoresRegistro(){
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Telefono");
-        modelo.addColumn("Correo");
-        modelo.addColumn("Licencia");
+        String[] columnas = {"ID","Nombre","Teléfono","Correo","Licencia"};
+        DefaultTableModel modelo = new DefaultTableModel(null,columnas);
 
         String query = "SELECT id, concat(nombres, ' ', apellidos) as nombre, telefono, correo, n_licencia from conductores";
 
@@ -740,14 +745,8 @@ public class Administrador extends JFrame{
     // SECCION DASHBOARD
     // metodo para cargar rutas en el dashboard
     public void cargarRutasDashboard(){
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("Ruta");
-        modelo.addColumn("Origen");
-        modelo.addColumn("Destino");
-        modelo.addColumn("Dia");
-        modelo.addColumn("Hora Salida");
-        modelo.addColumn("Hora Llegada");
-        modelo.addColumn("Estado Actual");
+        String[] columnas = {"Ruta", "Origen","Destino","Dia","Hora Salida","Hora Llegada", "Estado Actual"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
         String query = "SELECT nombre_ruta, origen, destino, dia, hora_salida, hora_llegada, estado_actual from rutas";
 
@@ -776,17 +775,9 @@ public class Administrador extends JFrame{
 
     // cargar la lista de estudiantes en la seccion estudiantes
     public void cargarEstudiantes() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Nombres");
-        modelo.addColumn("Apellidos");
-        modelo.addColumn("Cédula");
-        modelo.addColumn("Género");
-        modelo.addColumn("Curso");
-        modelo.addColumn("Teléfono");
-        modelo.addColumn("Correo");
-        modelo.addColumn("Dirección");
-        modelo.addColumn("Ruta");
+
+        String[] columnas = {"ID", "Nombres", "Apellidos","Cédula", "Género","Curso","Teléfono","Correo","Dirección","Ruta"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
         String query = "SELECT e.id, e.nombres, e.apellidos, e.cedula, e.genero, e.curso, e.telefono, e.correo, e.direccion, r.nombre_ruta " +
                 "FROM estudiantes e INNER JOIN rutas r ON e.ruta_id = r.id";
@@ -873,11 +864,8 @@ public class Administrador extends JFrame{
     }
 
     public void mostrarAlertas(){
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Ruta");
-        modelo.addColumn("Tipo de Alerta");
-        modelo.addColumn("Descripción");
+        String[] columnas = {"ID", "Ruta","Tipo de Alerta","Descripción"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
         String query = "Select a.id, a.tipo, a.descripcion, r.nombre_ruta from alertas a join rutas r on a.ruta_id = r.id";
 
@@ -890,14 +878,23 @@ public class Administrador extends JFrame{
                 fila[1] = rs.getString("nombre_ruta");
                 fila[2] = rs.getString("tipo");
                 fila[3] = rs.getString("descripcion");
-
                 modelo.addRow(fila);
             }
-
             alertasTable.setModel(modelo);
 
         }catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error en la base de datos "+e.getMessage());
         }
+    }
+
+    public void atenderAlerta(){
+        int registro = alertasTable.getSelectedRow();
+
+        if (registro == -1){
+            JOptionPane.showMessageDialog(null,"Escoje una alerta para dar por atendida.");
+            return;
+        }
+
+        String query = "";
     }
 }
