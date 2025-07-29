@@ -873,6 +873,31 @@ public class Administrador extends JFrame{
     }
 
     public void mostrarAlertas(){
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID");
+        modelo.addColumn("Ruta");
+        modelo.addColumn("Tipo de Alerta");
+        modelo.addColumn("Descripción");
 
+        String query = "Select a.id, a.tipo, a.descripcion, r.nombre_ruta from alertas a join rutas r on a.ruta_id = r.id";
+
+        try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query);
+        ResultSet rs = ps.executeQuery()){
+
+            while (rs.next()){
+                Object[] fila = new Object[4];
+                fila[0] = rs.getInt("id");
+                fila[1] = rs.getString("nombre_ruta");
+                fila[2] = rs.getString("tipo");
+                fila[3] = rs.getString("descripcion");
+
+                modelo.addRow(fila);
+            }
+
+            alertasTable.setModel(modelo);
+
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en la base de datos "+e.getMessage());
+        }
     }
 }
