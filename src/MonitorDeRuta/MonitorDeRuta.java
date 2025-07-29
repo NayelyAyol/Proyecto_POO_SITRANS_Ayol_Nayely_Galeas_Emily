@@ -156,7 +156,10 @@ public class MonitorDeRuta extends JFrame{
     // void para llenar la tabla tableEstudiantesRegistradosRuta segun los estudiantes en la ruta seleccionada en el combo box
     public void listarEstudiantes() {
         String seleccion = (String) nombreRutacomboBox.getSelectedItem();
-        if (seleccion == null || seleccion.equals("Seleccione una ruta")) return;
+        if (seleccion == null || seleccion.equals("Seleccione una ruta")) {
+                JOptionPane.showMessageDialog(null, "Debe seleccionar una ruta");
+            return;
+        }
 
         int rutaID = Integer.parseInt(seleccion.split(" - ")[0]);
 
@@ -189,8 +192,37 @@ public class MonitorDeRuta extends JFrame{
         }
     }
 
+    public void enviarAlerta(){
+        String tipo = (String) tipoAlertaComboBox.getSelectedItem();
+        String descripcion = descripcionTextArea.getText();
 
+        if (tipo == null || tipo.equals("Seleccione un tipo de alerta")){
+            JOptionPane.showMessageDialog(null, "Por favor escoja un tipo de alerta");
+            return;
+        }
 
+        if (descripcion.isEmpty()){
+            JOptionPane.showMessageDialog(null, "El campo de descripción debe ser llenado");
+        }
 
+        String query = "insert into alertas (tipo, descripcion) values (?, ?)";
 
+        try (Connection conn = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setString(1, tipo);
+            ps.setString(2, descripcion);
+
+            int resultado = ps.executeUpdate();
+
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(this, "Alerta enviada exitosamente.");
+            } else {
+                JOptionPane.showMessageDialog(this, "No se pudo enviar la alerta.");
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al enviar la alerta: " + ex.getMessage());
+        }
+    }
 }

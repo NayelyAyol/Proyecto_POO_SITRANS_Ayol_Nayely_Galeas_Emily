@@ -871,4 +871,8 @@ public class Administrador extends JFrame{
         //Se actualiza la lista de conductores después del registro
         cargarConductoresRegistro();
     }
+
+    public void mostrarAlertas(){
+
+    }
 }

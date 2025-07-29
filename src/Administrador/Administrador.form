@@ -822,7 +822,7 @@
                     <properties>
                       <font name="JetBrains Mono" size="14" style="1"/>
                       <foreground color="-16777216"/>
-                      <text value="Legada"/>
+                      <text value="Llegada"/>
                     </properties>
                   </component>
                   <component id="36ee2" class="javax.swing.JLabel">
