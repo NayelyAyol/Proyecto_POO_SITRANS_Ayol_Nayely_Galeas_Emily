@@ -34,6 +34,8 @@ public class MonitorDeRuta extends JFrame{
     private JComboBox tipoAlertaComboBox;
     private JTextArea descripcionTextArea;
     private JButton enviarButton;
+    private JComboBox rutaAlertaComboBox;
+    private JButton limpiarAlertaButton;
 
     public MonitorDeRuta(int monitorID) {
         setContentPane(Principal);
@@ -123,6 +125,20 @@ public class MonitorDeRuta extends JFrame{
                 listarEstudiantes();
             }
         });
+
+        enviarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enviarAlerta();
+            }
+        });
+
+        limpiarAlertaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpiarCamposAlerta();
+            }
+        });
     }
 
     public void cargarRutasMonitor(int monitorID) {
@@ -133,13 +149,19 @@ public class MonitorDeRuta extends JFrame{
             ps.setInt(1, monitorID);
             ResultSet rs = ps.executeQuery();
 
+            // cargar rutas al ver la informacion de la ruta
             nombreRutacomboBox.removeAllItems();
             nombreRutacomboBox.addItem("Seleccione una ruta");
+
+            // cargar rutas para enviar alerta
+            rutaAlertaComboBox.removeAllItems();
+            rutaAlertaComboBox.addItem("Seleccione una ruta");
 
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String nombreRuta = rs.getString("nombre_ruta");
                 nombreRutacomboBox.addItem(id + " - " + nombreRuta);
+                rutaAlertaComboBox.addItem(id + " - " + nombreRuta);
             }
 
         } catch (SQLException e) {
@@ -195,23 +217,27 @@ public class MonitorDeRuta extends JFrame{
     public void enviarAlerta(){
         String tipo = (String) tipoAlertaComboBox.getSelectedItem();
         String descripcion = descripcionTextArea.getText();
+        String ruta = (String) rutaAlertaComboBox.getSelectedItem();
 
-        if (tipo == null || tipo.equals("Seleccione un tipo de alerta")){
+        if (tipo == null || tipo.equals("Seleccione un tipo de alerta") || ruta.equals("Seleccione una ruta")){
             JOptionPane.showMessageDialog(null, "Por favor escoja un tipo de alerta");
             return;
         }
+        // extraer el ID de la ruta en el combo box
+        int rutaID = Integer.parseInt(ruta.split(" - ")[0]);
 
         if (descripcion.isEmpty()){
             JOptionPane.showMessageDialog(null, "El campo de descripción debe ser llenado");
         }
 
-        String query = "insert into alertas (tipo, descripcion) values (?, ?)";
+        String query = "insert into alertas (tipo, descripcion, ruta_id) values (?, ?, ?)";
 
         try (Connection conn = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
             ps.setString(1, tipo);
             ps.setString(2, descripcion);
+            ps.setInt(3,rutaID);
 
             int resultado = ps.executeUpdate();
 
@@ -224,5 +250,11 @@ public class MonitorDeRuta extends JFrame{
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(this, "Error al enviar la alerta: " + ex.getMessage());
         }
+    }
+
+    public void limpiarCamposAlerta(){
+        tipoAlertaComboBox.setSelectedIndex(0);
+        rutaAlertaComboBox.setSelectedIndex(0);
+        descripcionTextArea.setText("");
     }
 }
