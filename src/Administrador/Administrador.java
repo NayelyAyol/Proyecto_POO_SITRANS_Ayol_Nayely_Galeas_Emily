@@ -378,6 +378,7 @@ public class Administrador extends JFrame{
                 estadoRutaComboBox.setSelectedIndex(0);
                 diaComboBox.setSelectedIndex(0);
                 conductorComboBox.setSelectedIndex(0);
+                monitorComboBox.setSelectedIndex(0);
             }
         });
 
