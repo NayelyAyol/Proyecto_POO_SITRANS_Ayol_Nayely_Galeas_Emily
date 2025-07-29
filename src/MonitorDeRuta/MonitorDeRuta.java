@@ -4,9 +4,14 @@ import Login.Login;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class MonitorDeRuta extends JFrame{
     private JPanel barraNavegacion;
@@ -25,7 +30,7 @@ public class MonitorDeRuta extends JFrame{
     private JTextField horaSalidatextField;
     private JTextField horaLlegadatextField;
     private JButton buscarButton;
-    private JTable table1;
+    private JTable tableEstudiantesRegistradosRuta;
     private JComboBox tipoAlertaComboBox;
     private JTextArea descripcionTextArea;
     private JButton enviarButton;
@@ -52,6 +57,9 @@ public class MonitorDeRuta extends JFrame{
 
         Cards.add(enviarAlertaPanel, "alerta");
         formularioAlertaPanel.setBorder(new LineBorder(new Color(206,255,253),4));
+
+        // cargar datos
+        cargarRutasMonitor(monitorID);
 
         rutaAsignadaButton.addActionListener(new ActionListener() {
             @Override
@@ -83,10 +91,106 @@ public class MonitorDeRuta extends JFrame{
                 }
             }
         });
+
+        // ACCIONES
+
+        buscarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // este boton busca y llena los campos: hora de salida y hora de llegada segun el id del combo box con el id y el nombre de la ruta, en el combo box aparecen todas las rutas que se le ha asignado al monitor con este ID
+                String seleccion = (String) nombreRutacomboBox.getSelectedItem();
+                if (seleccion == null || seleccion.equals("Seleccione una ruta")) return;
+
+                int rutaID = Integer.parseInt(seleccion.split(" - ")[0]);
+
+                try (Connection conn = ConexionMySql.ConexionDB.getConnection();
+                     PreparedStatement ps = conn.prepareStatement("SELECT hora_salida, hora_llegada FROM rutas WHERE id = ?")) {
+
+                    ps.setInt(1, rutaID);
+                    ResultSet rs = ps.executeQuery();
+
+                    if (rs.next()) {
+                        horaSalidatextField.setText(rs.getString("hora_salida"));
+                        horaLlegadatextField.setText(rs.getString("hora_llegada"));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "No se encontró información de la ruta.");
+                    }
+
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Error al obtener horas de la ruta: " + ex.getMessage());
+                }
+
+                listarEstudiantes();
+            }
+        });
     }
+
+    public void cargarRutasMonitor(int monitorID) {
+        String query = "SELECT id, nombre_ruta FROM rutas WHERE monitor_id = ?";
+        try (Connection conn = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, monitorID);
+            ResultSet rs = ps.executeQuery();
+
+            nombreRutacomboBox.removeAllItems();
+            nombreRutacomboBox.addItem("Seleccione una ruta");
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nombreRuta = rs.getString("nombre_ruta");
+                nombreRutacomboBox.addItem(id + " - " + nombreRuta);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error al cargar rutas: " + e.getMessage());
+        }
+    }
+
 
     public void mostrarCarta(String nombreCarta){
         CardLayout cl = (CardLayout) Cards.getLayout();
         cl.show(Cards, nombreCarta);
     }
+
+    // void para llenar la tabla tableEstudiantesRegistradosRuta segun los estudiantes en la ruta seleccionada en el combo box
+    public void listarEstudiantes() {
+        String seleccion = (String) nombreRutacomboBox.getSelectedItem();
+        if (seleccion == null || seleccion.equals("Seleccione una ruta")) return;
+
+        int rutaID = Integer.parseInt(seleccion.split(" - ")[0]);
+
+        String[] columnas = {"ID", "Nombres", "Apellidos", "Curso", "Teléfono"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+
+        String query = "SELECT id, nombres, apellidos, curso, telefono FROM estudiantes WHERE ruta_id = ?";
+
+        try (Connection conn = ConexionMySql.ConexionDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+            ps.setInt(1, rutaID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Object[] fila = {
+                        rs.getInt("id"),
+                        rs.getString("nombres"),
+                        rs.getString("apellidos"),
+                        rs.getString("curso"),
+                        rs.getString("telefono")
+                };
+                modelo.addRow(fila);
+            }
+
+            tableEstudiantesRegistradosRuta.setModel(modelo);
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(this, "Error al listar estudiantes: " + ex.getMessage());
+        }
+    }
+
+
+
+
+
 }
