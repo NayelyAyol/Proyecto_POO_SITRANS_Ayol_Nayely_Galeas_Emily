@@ -2,9 +2,11 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Conductor.Conductor">
   <grid id="a71fa" binding="Principal" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="1527" height="1266"/>
+      <xy x="20" y="20" width="2127" height="1293"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-1"/>
+    </properties>
     <border type="none"/>
     <children>
       <tabbedpane id="6f678" binding="conductorPanel">
@@ -12,7 +14,7 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="200" height="200"/>
           </grid>
-          <gridbag weightx="1.0" weighty="1.0" ipady="150"/>
+          <gridbag weightx="1.0" weighty="1.0" ipady="298"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -484,8 +486,8 @@
       </tabbedpane>
       <grid id="2b17b" binding="encabezado" layout-manager="GridBagLayout">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="1.0" weighty="1.0" ipady="70"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="1.0" weighty="1.0"/>
         </constraints>
         <properties>
           <background color="-3211267"/>
@@ -506,7 +508,7 @@
           <hspacer id="5696e">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-              <gridbag weightx="0.0" weighty="0.0" ipadx="1300"/>
+              <gridbag weightx="0.0" weighty="0.0" ipadx="1800"/>
             </constraints>
           </hspacer>
         </children>
