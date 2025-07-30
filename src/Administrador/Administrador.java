@@ -579,6 +579,9 @@ public class Administrador extends JFrame{
                 || telefono.isEmpty() || correo.isEmpty() || direccion.isEmpty()){
             JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
             return;
+        } else if(cedula.length() != 10){
+            JOptionPane.showMessageDialog(null,"Ingrese un número de cédula válido,");
+            return;
         }
 
         //Validación de selección de ruta
