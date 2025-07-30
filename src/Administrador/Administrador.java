@@ -284,6 +284,7 @@ public class Administrador extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("reportes");
+                listarRutas();
             }
         });
 
