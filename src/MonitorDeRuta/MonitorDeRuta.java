@@ -101,7 +101,12 @@ public class MonitorDeRuta extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 // este boton busca y llena los campos: hora de salida y hora de llegada segun el id del combo box con el id y el nombre de la ruta, en el combo box aparecen todas las rutas que se le ha asignado al monitor con este ID
                 String seleccion = (String) nombreRutacomboBox.getSelectedItem();
-                if (seleccion == null || seleccion.equals("Seleccione una ruta")) return;
+                if (seleccion == null || seleccion.equals("Seleccione una ruta")){
+                    // limpiar campos
+                    horaSalidatextField.setText("");
+                    horaLlegadatextField.setText("");
+                    return;
+                }
 
                 int rutaID = Integer.parseInt(seleccion.split(" - ")[0]);
 
