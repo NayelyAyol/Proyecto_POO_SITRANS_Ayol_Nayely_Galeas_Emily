@@ -2027,7 +2027,7 @@
                           <text value="Total Estudiantes"/>
                         </properties>
                       </component>
-                      <component id="84638" class="javax.swing.JLabel">
+                      <component id="84638" class="javax.swing.JLabel" binding="totalEstudiantesLabelReportes">
                         <constraints>
                           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="1.0" weighty="1.0"/>
@@ -2083,7 +2083,7 @@
                           <text value="Rutas Activas"/>
                         </properties>
                       </component>
-                      <component id="a589c" class="javax.swing.JLabel">
+                      <component id="a589c" class="javax.swing.JLabel" binding="rutasActivasLabelReportes">
                         <constraints>
                           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="1.0" weighty="1.0"/>
@@ -2142,10 +2142,10 @@
                         <properties>
                           <font name="JetBrains Mono" size="16" style="1"/>
                           <foreground color="-16777216"/>
-                          <text value="Asistencia Promedio"/>
+                          <text value="Total Conductores"/>
                         </properties>
                       </component>
-                      <component id="722d6" class="javax.swing.JLabel">
+                      <component id="722d6" class="javax.swing.JLabel" binding="totalConductoresLabelReportes">
                         <constraints>
                           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="1.0" weighty="1.0"/>
@@ -2286,7 +2286,7 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="93896" class="javax.swing.JTable" binding="table3" default-binding="true">
+                          <component id="93896" class="javax.swing.JTable" binding="buscarEstudiantesTable">
                             <constraints/>
                             <properties/>
                           </component>
@@ -2294,6 +2294,18 @@
                       </scrollpane>
                     </children>
                   </grid>
+                  <component id="33f53" class="javax.swing.JButton" binding="buscarButton" default-binding="true">
+                    <constraints>
+                      <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <background color="-3211267"/>
+                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <foreground color="-16777216"/>
+                      <text value="Buscar"/>
+                    </properties>
+                  </component>
                 </children>
               </grid>
               <grid id="ad20" binding="reportesRutasPanel" layout-manager="GridBagLayout">

@@ -102,7 +102,7 @@ public class Administrador extends JFrame{
     private JScrollPane listaConductoresScroll;
     private JPanel listaConductores;
     private JTable reportesRutaTable;
-    private JTable table3;
+    private JTable buscarEstudiantesTable;
     private JPanel rutasTableScrollPane;
     private JScrollPane rutasDashScrolll;
     private JPanel reportesRutasPanel;
@@ -113,6 +113,10 @@ public class Administrador extends JFrame{
     private JPanel alertasSinAtenderPanel;
     private JComboBox nRutaComboBox;
     private JComboBox monitorComboBox;
+    private JLabel totalEstudiantesLabelReportes;
+    private JLabel rutasActivasLabelReportes;
+    private JLabel totalConductoresLabelReportes;
+    private JButton buscarButton;
 
     /**
      * Constructor principal de la interfaz de administración.
@@ -195,6 +199,7 @@ public class Administrador extends JFrame{
         cargarMonitoresRutas();
         mostrarAlertas();
         actualizarEstadisticas();
+        listarRutas();
 
         /*
          * Configuración de todos los ActionListener para el boton del cierre se sesion (encabezado).
@@ -418,6 +423,12 @@ public class Administrador extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 atenderAlerta();
+            }
+        });
+        buscarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buscarEstudiantes();
             }
         });
     }
@@ -746,7 +757,7 @@ public class Administrador extends JFrame{
     }
 
     // SECCION DASHBOARD
-    // metodo para cargar rutas en el dashboard
+    // Metodo para cargar rutas en el dashboard
     public void cargarRutasDashboard(){
         String[] columnas = {"Ruta", "Origen","Destino","Dia","Hora Salida","Hora Llegada", "Estado Actual"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
@@ -866,6 +877,76 @@ public class Administrador extends JFrame{
         cargarConductoresRegistro();
     }
 
+    //Seccion Reportes
+
+    public void listarRutas(){
+        String[] columnas =  {"ID","Ruta","Placas del vehículo","Destino","Día","Hora de salida","Hora de llegada", "Estado","Monitor","Conductor"};
+        DefaultTableModel model = new DefaultTableModel(null, columnas);
+
+        String query = "Select * from rutas";
+
+        try(Connection conexion = ConexionDB.getConnection();
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ResultSet rs = ps.executeQuery()){
+
+            if (rs.next()){
+                Object[] fila = new Object[10];
+                fila[0] = rs.getInt("id");
+                fila[1] = rs.getString("nombre_ruta");
+                fila[2] = rs.getString("placas_vehiculo");
+                fila[3] = rs.getString("destino");
+                fila[4] = rs.getString("dia");
+                fila[5] = rs.getString("hora_salida");
+                fila[6] = rs.getString("hora_llegada");
+                fila[7] = rs.getString("estado_actual");
+                fila[8] = rs.getInt("monitor_id");
+                fila[9] = rs.getInt("conductor_id");
+
+                model.addColumn(fila);
+            }
+
+            reportesRutaTable.setModel(model);
+        }catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al listar rutas: " + e.getMessage());
+        }
+    }
+
+    public void buscarEstudiantes(){
+        String cedula = buscarEtdtextField.getText().trim();
+
+        String[] columnas = {"ID", "Nombres","Apellidos", "Cédula", "Curso", "Dirección"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+
+        String query = "select * from estudiantes where cedula like ?";
+        try (Connection conexion = ConexionDB.getConnection();
+             PreparedStatement ps = conexion.prepareStatement(query)) {
+
+            ps.setString(1, "%" + cedula + "%"); // Coincidencia parcial
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Object[] fila = new Object[6];
+                    fila[0] = rs.getInt("id");
+                    fila[1] = rs.getString("nombres");
+                    fila[2] = rs.getString("apellidos");
+                    fila[3] = rs.getInt("cedula");
+                    fila[4] = rs.getString("curso");
+                    fila[5] = rs.getString("direccion");
+
+                    modelo.addRow(fila);
+                }
+
+                buscarEstudiantesTable.setModel(modelo); //Se muestran los resultados
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al buscar estudiante por cédula: " + e.getMessage());
+        }
+
+    }
+
+
+    //Seccion Alertas
     public void mostrarAlertas(){
         String[] columnas = {"ID", "Ruta","Tipo de Alerta","Descripción", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
@@ -938,10 +1019,12 @@ public class Administrador extends JFrame{
             ResultSet rs = ps.executeQuery()){
             if (rs.next()){
                 rutasActivasLabel.setText(rs.getString(1));
+                rutasActivasLabelReportes.setText(rs.getString(1));
             }
 
         }catch (SQLException e){
             rutasActivasLabel.setText("0");
+            rutasActivasLabelReportes.setText("0");
         }
 
     }
@@ -969,9 +1052,11 @@ public class Administrador extends JFrame{
             ResultSet rs = ps.executeQuery()){
             if (rs.next()){
                 estudiantesRegistradosLabel.setText(rs.getString(1));
+                totalEstudiantesLabelReportes.setText(rs.getString(1));
             }
         }catch (SQLException e){
             estudiantesRegistradosLabel.setText("0");
+            totalEstudiantesLabelReportes.setText("0");
         }
 
     }
@@ -985,10 +1070,12 @@ public class Administrador extends JFrame{
 
             if (rs.next()){
                 conductoresRegistradosLabel.setText(rs.getString(1));
+                totalConductoresLabelReportes.setText(rs.getString(1));
             }
 
         }catch (SQLException e){
             conductoresRegistradosLabel.setText("0");
+            totalConductoresLabelReportes.setText("0");
         }
 
     }
