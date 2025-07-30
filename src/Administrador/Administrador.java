@@ -120,8 +120,6 @@ public class Administrador extends JFrame{
 
     /**
      * Constructor principal de la interfaz de administración.
-     *
-     * @throws SQLException si hay problemas de conexión con la base de datos
      */
     public Administrador(){
         setContentPane(Principal);
@@ -144,50 +142,66 @@ public class Administrador extends JFrame{
         Cards.add(alertas,"alertas");
 
         /*
-         * Configuración de bordes para mejorar la apariencia visual.
+         * Configuración de bordes para mejorar el diseño.
          * Distintos colores para distintas secciones
          */
 
-        //Estilos para la barra de navegación
+        /**
+         * Aplica estilos a la barra de navegación.
+         */
         Barra_navegacion.setBorder(new LineBorder(new Color(0,0,0),1));
 
-        //Estilos para el encabezado
+        /**
+         * Aplica estilos al encabezado.
+         */
         encabezado.setBorder(new LineBorder(new Color(0,0,0),1));
         sesionButton.setBorder(null);
 
-        //Estilos para los componentes de la Carta Dashboard
+        /**
+         * Aplica estilos a los componentes del Dashboard.
+         */
         rutasAct.setBorder(new LineBorder(new Color(206,255,253), 4));
         estuReg.setBorder(new LineBorder(new Color(206,255,253), 4));
         alertPen.setBorder(new LineBorder(new Color(206,255,253), 4));
         eficienciaPro.setBorder(new LineBorder(new Color(206,255,253), 4));
 
-        //Estilos para la Carta Registrar_Rutas
+        /**
+         * Aplica estilos a la sección de rutas.
+         */
         nuevaRuta.setBorder(new LineBorder(new Color(206,255,253),4));
         configuracionExtra.setBorder(new LineBorder(new Color(206,255,253),4));
         guardarRutasButton.setBorder(new LineBorder(new Color(0,0,0),2));
         limpiarRutasButton.setBorder(new LineBorder(new Color(0,0,0),2));
 
-        //Estilos para la Carta Registrar_Estudiantes
+        /**
+         * Aplica estilos a la sección de estudiantes.
+         */
         registrarEtdButton.setBorder(new LineBorder(new Color(0,0,0),2));
         limpiarEtdButton.setBorder(new LineBorder(new Color(0,0,0),2));
         eliminarListaButton.setBorder(new LineBorder(new Color(0,0,0),2));
         datosPersonales.setBorder(new LineBorder(new Color(206,255,253),4));
         informacionContacto.setBorder(new LineBorder(new Color(206,255,253),4));
 
-        //Estilos para la Carta Registrar_Conductores
+        /**
+         * Aplica estilos a la sección de conductores.
+         */
         listaConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
         formularioRegistroConductoresPanel.setBorder(new LineBorder(new Color(206,255,253),4));
         registrarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
         limpiarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
         eliminarConductorButton.setBorder(new LineBorder(new Color(0,0,0),2));
 
-        //Estilos para la Carta Reportes
+        /**
+         * Aplica estilos a la sección de reportes.
+         */
         totalEstudiantesPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         rutasActivasPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         asistenciaPromedioPanel.setBorder(new LineBorder(new Color(0,0,0),2));
         buscarEstudiantesPanel.setBorder(new LineBorder(new Color(0,0,0),2));
 
-        //Estilos para la Carta Alertas
+        /**
+         * Aplica estilos a la sección de alertas.
+         */
         alertasPanel.setBorder(new LineBorder(new Color(206,255,253),4));
 
         /*
@@ -442,10 +456,14 @@ public class Administrador extends JFrame{
         cl.show(Cards, nombreCarta);
     }
 
-    // SECCION CONDUCTORES
+    // SECCIÓN CONDUCTORES
 
-    // cargar la lista de conductores en Registro Conductores
-    public void cargarConductoresRegistro(){
+    /**
+     * Carga los conductores registrados en la tabla de la interfaz.
+     *
+     * @throws SQLException si ocurre error al consultar la base de datos
+     */
+     public void cargarConductoresRegistro(){
         String[] columnas = {"ID","Nombre","Teléfono","Correo","Licencia"};
         DefaultTableModel modelo = new DefaultTableModel(null,columnas);
 
@@ -472,6 +490,11 @@ public class Administrador extends JFrame{
         }
     }
 
+    /**
+     * Elimina el conductor seleccionado. Solicita confirmación al usuario.
+     *
+     * @throws SQLException si ocurre error durante la eliminación
+     */
     public void eliminarRegistroConductor(){
         int filaSeleecionada = listaConductoresTable.getSelectedRow();
 
@@ -480,7 +503,7 @@ public class Administrador extends JFrame{
             return;
         }
 
-        // se extrae el id del estudiante de la fila seleccionada y la columna en donde se encuentra su ID
+        // Se extrae el id del estudiante de la fila seleccionada y la columna en donde se encuentra su ID
         int conductorID = (int) listaConductoresTable.getValueAt(filaSeleecionada,0);
 
         int confirmacion = JOptionPane.showConfirmDialog(null,"¿Estás seguro de eliminar este registro?","Confirmar",JOptionPane.YES_NO_OPTION);
@@ -503,10 +526,14 @@ public class Administrador extends JFrame{
         }
     }
 
-    // SECCION ESTUDIANTES
+    // SECCIÓN ESTUDIANTES
 
-    // Cargar rutas al momento de registrar estudiantes
-    public void cargarRutasEstudiantes(){
+    /**
+     * Carga las rutas disponibles en el ComboBox para registro de estudiantes.
+     *
+     * @throws SQLException si ocurre error al consultar las rutas
+     */
+     public void cargarRutasEstudiantes(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement("SELECT id, nombre_ruta FROM rutas");
              ResultSet rs = ps.executeQuery()) {
@@ -592,7 +619,11 @@ public class Administrador extends JFrame{
         }
     }
 
-    // metodo para eliminar el registro de un estudiante
+    /**
+     * Elimina el estudiante seleccionado. Solicita confirmación.
+     *
+     * @throws SQLException si ocurre error durante la eliminación
+     */
     public void eliminarRegistroEstudiante(){
         int filaSeleecionada = listaEstudiantestable.getSelectedRow();
 
@@ -627,7 +658,11 @@ public class Administrador extends JFrame{
 
     // SECCION RUTAS
 
-    // Cargar conductores al momento de registrar una nueva ruta
+    /**
+     * Carga conductores disponibles en ComboBox para asignar a rutas.
+     *
+     * @throws SQLException si ocurre error al consultar conductores
+     */
     public void cargarConductoresRutas(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM conductores");
@@ -648,7 +683,11 @@ public class Administrador extends JFrame{
         }
     }
 
-    // Cargar monitores al momento de registrar una nueva ruta
+    /**
+     * Carga monitores disponibles en ComboBox para asignar a rutas.
+     *
+     * @throws SQLException si ocurre error al consultar monitores
+     */
     public void cargarMonitoresRutas(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement("SELECT id, concat(nombres, ' ', apellidos) as nombre FROM monitores");
@@ -757,8 +796,12 @@ public class Administrador extends JFrame{
     }
 
     // SECCION DASHBOARD
-    // Metodo para cargar rutas en el dashboard
-    public void cargarRutasDashboard(){
+    /**
+     * Carga rutas en la tabla del dashboard principal.
+     *
+     * @throws SQLException si ocurre error al consultar rutas
+     */
+     public void cargarRutasDashboard(){
         String[] columnas = {"Ruta", "Origen","Destino","Dia","Hora Salida","Hora Llegada", "Estado Actual"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
@@ -787,7 +830,11 @@ public class Administrador extends JFrame{
         }
     }
 
-    // cargar la lista de estudiantes en la seccion estudiantes
+    /**
+     * Carga lista completa de estudiantes con información de rutas.
+     *
+     * @throws SQLException si ocurre error al consultar estudiantes
+     */
     public void cargarEstudiantes() {
 
         String[] columnas = {"ID", "Nombres", "Apellidos","Cédula", "Género","Curso","Teléfono","Correo","Dirección","Ruta"};
@@ -878,7 +925,11 @@ public class Administrador extends JFrame{
     }
 
     //Seccion Reportes
-
+    /**
+     * Lista todas las rutas con información detallada.
+     *
+     * @throws SQLException si ocurre error al consultar rutas
+     */
     public void listarRutas(){
         String[] columnas =  {"ID","Ruta","Placas del vehículo","Destino","Día","Hora de salida","Hora de llegada", "Estado","Monitor","Conductor"};
         DefaultTableModel model = new DefaultTableModel(null, columnas);
@@ -911,6 +962,11 @@ public class Administrador extends JFrame{
         }
     }
 
+    /**
+     * Busca estudiantes por cédula usando coincidencia parcial.
+     *
+     * @throws SQLException si ocurre error durante la búsqueda
+     */
     public void buscarEstudiantes(){
         String cedula = buscarEtdtextField.getText().trim();
 
@@ -947,6 +1003,11 @@ public class Administrador extends JFrame{
 
 
     //Seccion Alertas
+    /**
+     * Carga y muestra todas las alertas del sistema.
+     *
+     * @throws SQLException si ocurre error al consultar alertas
+     */
     public void mostrarAlertas(){
         String[] columnas = {"ID", "Ruta","Tipo de Alerta","Descripción", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
@@ -972,6 +1033,11 @@ public class Administrador extends JFrame{
         }
     }
 
+    /**
+     * Marca la alerta seleccionada como "Atendida".
+     *
+     * @throws SQLException si ocurre error al actualizar la alerta
+     */
     public void atenderAlerta(){
         int registro = alertasTable.getSelectedRow();
 
@@ -1003,7 +1069,10 @@ public class Administrador extends JFrame{
 
     }
 
-    //Metodo para actualizar las estadisticas del dashboard
+
+    /**
+     * Actualiza todas las estadísticas del dashboard.
+     */
     public void actualizarEstadisticas(){
         actualizarRutasActivas();
         actualizarAlertasPendientes();
@@ -1011,7 +1080,11 @@ public class Administrador extends JFrame{
         actualizarConductoresRegistrados();
     }
 
-    //Metodo para actualizar el numero de rutas activas
+    /**
+     * Cuenta y actualiza el número de rutas activas.
+     *
+     * @throws SQLException si ocurre error al consultar rutas
+     */
     public void  actualizarRutasActivas(){
         String query = "select count(*) from rutas where estado_actual= 'En progreso'";
         try(Connection conexion = ConexionDB.getConnection();
@@ -1029,7 +1102,11 @@ public class Administrador extends JFrame{
 
     }
 
-    //Metodo para actualizar el numero de alertas pendientes
+    /**
+     * Cuenta y actualiza el número de alertas pendientes.
+     *
+     * @throws SQLException si ocurre error al consultar alertas
+     */
     public void actualizarAlertasPendientes(){
         String query = "select count(*) from alertas where estado = 'Pendiente'";
         try(Connection conexion = ConexionDB.getConnection();
@@ -1044,7 +1121,11 @@ public class Administrador extends JFrame{
         }
     }
 
-
+    /**
+     * Cuenta y actualiza el total de estudiantes registrados.
+     *
+     * @throws SQLException si ocurre error al consultar estudiantes
+     */
     public void actualizarEstudiantesRegistrados(){
         String query = "select count(*) from estudiantes";
         try(Connection conexion = ConexionDB.getConnection();
@@ -1061,6 +1142,11 @@ public class Administrador extends JFrame{
 
     }
 
+    /**
+     * Cuenta y actualiza el total de conductores registrados.
+     *
+     * @throws SQLException si ocurre error al consultar conductores
+     */
     public void actualizarConductoresRegistrados(){
         String query = "select count(*) from conductores";
 

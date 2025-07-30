@@ -13,6 +13,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Ventana principal para el monitor de ruta.
+ */
 public class MonitorDeRuta extends JFrame{
     private JPanel barraNavegacion;
     private JButton rutaAsignadaButton;
@@ -37,6 +40,12 @@ public class MonitorDeRuta extends JFrame{
     private JComboBox rutaAlertaComboBox;
     private JButton limpiarAlertaButton;
 
+
+    /**
+     * Constructor que inicializa la ventana del monitor.
+     *
+     * @param monitorID ID del monitor que inicia sesión
+     */
     public MonitorDeRuta(int monitorID) {
         setContentPane(Principal);
         setTitle("Monitor de Ruta");
@@ -63,24 +72,35 @@ public class MonitorDeRuta extends JFrame{
         // cargar datos
         cargarRutasMonitor(monitorID);
 
+
+        /**
+         * Accion de los diferentes botones para mostrar las cartas que componen la interfaz
+         */
+        //Botón para mostrar la carta denominada rutas
         rutaAsignadaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("rutas");
             }
         });
+
+        //Botón para mostrar la carta denominada estudiantes
         estudiantesRegistradosButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("estudiantes");
             }
         });
+
+        //Botón para mostrar la carta denominada alerta
         enviarAlertaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("alerta");
             }
         });
+
+        //Botón cerrar el panel y volver al Login
         cerrarSesionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,8 +108,8 @@ public class MonitorDeRuta extends JFrame{
                         "¿Desea cerrar sesión?","Confirmación", JOptionPane.YES_NO_OPTION);
 
                 if (opcion==JOptionPane.YES_OPTION){
-                    new Login();
-                    dispose();
+                    new Login(); //Se llama a la ventana del login
+                    dispose(); //Se cierra la ventana actual
                 }
             }
         });
@@ -99,23 +119,25 @@ public class MonitorDeRuta extends JFrame{
         buscarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // este boton busca y llena los campos: hora de salida y hora de llegada segun el id del combo box con el id y el nombre de la ruta, en el combo box aparecen todas las rutas que se le ha asignado al monitor con este ID
+                // Este botón busca y llena los campos: hora de salida y hora de llegada segun el id del combo box con el id y el nombre de la ruta, en el combo box aparecen todas las rutas que se le ha asignado al monitor con este ID
                 String seleccion = (String) nombreRutacomboBox.getSelectedItem();
                 if (seleccion == null || seleccion.equals("Seleccione una ruta")){
-                    // limpiar campos
+                    // Se limpian los campos
                     horaSalidatextField.setText("");
                     horaLlegadatextField.setText("");
                     return;
                 }
 
+                // Se extrae el ID de la ruta seleccionada del combo box
                 int rutaID = Integer.parseInt(seleccion.split(" - ")[0]);
 
                 try (Connection conn = ConexionMySql.ConexionDB.getConnection();
                      PreparedStatement ps = conn.prepareStatement("SELECT hora_salida, hora_llegada FROM rutas WHERE id = ?")) {
-
+                    // Se establece el parámetro de la consulta
                     ps.setInt(1, rutaID);
                     ResultSet rs = ps.executeQuery();
 
+                    // Si encuentra la ruta, llenar los campos de hora
                     if (rs.next()) {
                         horaSalidatextField.setText(rs.getString("hora_salida"));
                         horaLlegadatextField.setText(rs.getString("hora_llegada"));
@@ -124,13 +146,16 @@ public class MonitorDeRuta extends JFrame{
                     }
 
                 } catch (SQLException ex) {
+                    //Mensajes de error
                     JOptionPane.showMessageDialog(null, "Error al obtener horas de la ruta: " + ex.getMessage());
                 }
 
+                // Cargar la lista de estudiantes de la ruta seleccionada
                 listarEstudiantes();
             }
         });
 
+        // Botón que llama al método enviar las alertas al administrador
         enviarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,6 +163,7 @@ public class MonitorDeRuta extends JFrame{
             }
         });
 
+        // Botón que llama al método para limpiar campos
         limpiarAlertaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -146,6 +172,11 @@ public class MonitorDeRuta extends JFrame{
         });
     }
 
+    /**
+     * Carga las rutas asignadas al monitor en los combo boxes.
+     *
+     * @param monitorID ID del monitor
+     */
     public void cargarRutasMonitor(int monitorID) {
         String query = "SELECT id, nombre_ruta FROM rutas WHERE monitor_id = ?";
         try (Connection conn = ConexionMySql.ConexionDB.getConnection();
@@ -175,32 +206,48 @@ public class MonitorDeRuta extends JFrame{
     }
 
 
+    /**
+     * Cambia entre las diferentes pantallas del sistema.
+     *
+     * @param nombreCarta Nombre de la pantalla a mostrar
+     */
     public void mostrarCarta(String nombreCarta){
         CardLayout cl = (CardLayout) Cards.getLayout();
         cl.show(Cards, nombreCarta);
     }
 
-    // void para llenar la tabla tableEstudiantesRegistradosRuta segun los estudiantes en la ruta seleccionada en el combo box
+
+    /**
+     * Llena la tabla con estudiantes de la ruta seleccionada.
+     */
     public void listarEstudiantes() {
+        // Obtener la ruta seleccionada del combo box
         String seleccion = (String) nombreRutacomboBox.getSelectedItem();
+
+        // Se valida que se haya seleccionado una ruta válida
         if (seleccion == null || seleccion.equals("Seleccione una ruta")) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar una ruta");
             return;
         }
 
+        // Se extrae el ID de la ruta de la selección
         int rutaID = Integer.parseInt(seleccion.split(" - ")[0]);
 
+        // Definicion de las columnas de la tabla
         String[] columnas = {"ID", "Nombres", "Apellidos", "Curso", "Teléfono"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
+        // Consulta SQL para obtener estudiantes de la ruta
         String query = "SELECT id, nombres, apellidos, curso, telefono FROM estudiantes WHERE ruta_id = ?";
 
         try (Connection conn = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
+            // Establecer el parámetro de la consulta
             ps.setInt(1, rutaID);
             ResultSet rs = ps.executeQuery();
 
+            // Recorrer resultados y agregar filas al modelo
             while (rs.next()) {
                 Object[] fila = {
                         rs.getInt("id"),
@@ -212,40 +259,52 @@ public class MonitorDeRuta extends JFrame{
                 modelo.addRow(fila);
             }
 
+            // Asignar el modelo a la tabla
             tableEstudiantesRegistradosRuta.setModel(modelo);
 
         } catch (SQLException ex) {
+            //Se manejan los errores
             JOptionPane.showMessageDialog(this, "Error al listar estudiantes: " + ex.getMessage());
         }
     }
 
+    /**
+     * Envía una alerta a la base de datos.
+     */
     public void enviarAlerta(){
+        // Obtener valores de los campos del formulario
         String tipo = (String) tipoAlertaComboBox.getSelectedItem();
         String descripcion = descripcionTextArea.getText();
         String ruta = (String) rutaAlertaComboBox.getSelectedItem();
 
+        // Se valida que se hayan seleccionado tipo de alerta y ruta
         if (tipo == null || tipo.equals("Seleccione un tipo de alerta") || ruta.equals("Seleccione una ruta")){
             JOptionPane.showMessageDialog(null, "Por favor escoja un tipo de alerta");
             return;
         }
-        // extraer el ID de la ruta en el combo box
+        // Se extrae el ID de la ruta en el combo box
         int rutaID = Integer.parseInt(ruta.split(" - ")[0]);
 
+        // Se valida que la descripción no esté vacía
         if (descripcion.isEmpty()){
             JOptionPane.showMessageDialog(null, "El campo de descripción debe ser llenado");
         }
 
+        // Consulta SQL para insertar la alerta
         String query = "insert into alertas (tipo, descripcion, ruta_id) values (?, ?, ?)";
 
         try (Connection conn = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(query)) {
 
+            // Establecer los parámetros de la consulta
             ps.setString(1, tipo);
             ps.setString(2, descripcion);
             ps.setInt(3,rutaID);
 
+            // Se ejecuta la inserción
             int resultado = ps.executeUpdate();
 
+            // Se verifica si la inserción fue exitosa
             if (resultado > 0) {
                 JOptionPane.showMessageDialog(this, "Alerta enviada exitosamente.");
             } else {
@@ -253,10 +312,14 @@ public class MonitorDeRuta extends JFrame{
             }
 
         } catch (SQLException ex) {
+            //Se manejan lso errores
             JOptionPane.showMessageDialog(this, "Error al enviar la alerta: " + ex.getMessage());
         }
     }
 
+    /**
+     * Limpia los campos del formulario de alerta.
+     */
     public void limpiarCamposAlerta(){
         tipoAlertaComboBox.setSelectedIndex(0);
         rutaAlertaComboBox.setSelectedIndex(0);

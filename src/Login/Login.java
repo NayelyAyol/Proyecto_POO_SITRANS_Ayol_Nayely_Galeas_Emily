@@ -15,6 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Ventana de inicio de sesión del sistema.
+ */
 public class Login extends JFrame{
     private JPanel Login;
     private JTextField correoField;
@@ -25,8 +28,12 @@ public class Login extends JFrame{
     private JButton monitorDeRutaButton;
     private JPanel Fondo;
 
-    private String rolSeleccionado = null; //variable para guardar el rol elegido
+    /** Rol seleccionado por el usuario */
+    private String rolSeleccionado = null;
 
+    /**
+     * Constructor que inicializa la ventana de login.
+     */
     public Login(){
         setVisible(true);
         setContentPane(Fondo);
@@ -54,14 +61,22 @@ public class Login extends JFrame{
         });
     }
 
-    // metodo para confirmar el rol seleccionado
+    /**
+     * Establece el rol seleccionado por el usuario.
+     *
+     * @param rol El rol elegido (Administrador, Conductor o Monitor)
+     */
     private void seleccionarRol(String rol) {
         this.rolSeleccionado = rol;
         JOptionPane.showMessageDialog(Login, "Rol seleccionado: " + rol);
     }
 
-    // metodo para validar el login en la base de datos
-    private int validarLogin(String correo, String clave, String rol) {
+    /**
+     * Valida las credenciales del usuario en la base de datos.
+     *
+     * @return ID del usuario si es válido, -1 si no
+     */
+     private int validarLogin(String correo, String clave, String rol) {
         String query = "";
         if (rol.equals("Conductor")) {
             query = "SELECT id FROM conductores WHERE correo = ? AND clave = ?";
@@ -89,6 +104,9 @@ public class Login extends JFrame{
         return -1; // si no encuentra nada
     }
 
+    /**
+     * Procesa el inicio de sesión del usuario.
+     */
     private void iniciarSesion(String correo, String clave, String rol){
         if (correo.isEmpty() || clave.isEmpty()) {
             JOptionPane.showMessageDialog(Login, "Por favor, ingrese los datos solicitados.");

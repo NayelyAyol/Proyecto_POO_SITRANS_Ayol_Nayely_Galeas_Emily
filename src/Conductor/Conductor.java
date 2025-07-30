@@ -29,6 +29,11 @@ public class Conductor extends JFrame {
     private JScrollPane listaEstudiantesTable;
     private JPanel encabezado;
 
+    /**
+     * Constructor principal. Inicializa la interfaz y carga datos iniciales.
+     *
+     * @param conductorID ID del conductor que inicia sesión
+     */
     public Conductor(int conductorID) {
         setContentPane(Principal);
         setTitle("Conductor");
@@ -37,11 +42,15 @@ public class Conductor extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        //Estilos para el panel
+        /**
+         * Aplica estilos visuales a los componentes.
+         */
         cerrarSesionButton.setBorder(null);
         encabezado.setBorder(new LineBorder(new Color(0,0,0),1));
 
-        //Configuracion de los JTextField para el panel de Ruta
+        /**
+         * Configura campos como no editables.
+         */
         zonatextField.setEditable(false);
         capacidadtextField.setEditable(false);
         asignadostextField.setEditable(false);
@@ -52,6 +61,9 @@ public class Conductor extends JFrame {
         // Cargar datos
         cargarRutas();
 
+        /**
+         * Maneja el cierre de sesión con confirmación.
+         */
         cerrarSesionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,7 +93,12 @@ public class Conductor extends JFrame {
             }
         });
     }
-    // permite cargar la información de la base de datos para escoger en el comboBox la ruta deseada
+
+
+    /**
+     * Metodos
+     * Carga todas las rutas disponibles en el ComboBox.
+     */
     public void cargarRutas(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
              PreparedStatement ps = conexion.prepareStatement("SELECT id, nombre_ruta FROM rutas");
@@ -102,6 +119,9 @@ public class Conductor extends JFrame {
         }
     }
 
+    /**
+     * Llena los campos con datos de la ruta seleccionada.
+     */
     public void llenarDatos() {
         String seleccion = (String) rutaAsignadaComboBox.getSelectedItem();
 
@@ -146,6 +166,9 @@ public class Conductor extends JFrame {
         }
     }
 
+    /**
+     * Actualiza el estado de la ruta seleccionada en la base de datos.
+     */
     public void actualizarEstadoRuta(){
         String seleccion = (String) rutaAsignadaComboBox.getSelectedItem();
 
@@ -182,6 +205,9 @@ public class Conductor extends JFrame {
         }
     }
 
+    /**
+     * Limpia todos los campos de información.
+     */
     public void limpiarCampos(){
         zonatextField.setText("");
         capacidadtextField.setText("");
@@ -192,6 +218,11 @@ public class Conductor extends JFrame {
 
     // SECCION LISTA ESTUDIANTES A CARGO
 
+    /**
+     * Carga la lista de estudiantes de una ruta en la tabla.
+     *
+     * @param rutaID ID de la ruta
+     */
     public void listarEstudiantes(int rutaID){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection()) {
             DefaultTableModel modelo = new DefaultTableModel();
