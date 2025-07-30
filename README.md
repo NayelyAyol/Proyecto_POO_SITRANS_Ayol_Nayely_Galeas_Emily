@@ -35,7 +35,7 @@
     <h4>Login</h4>
   </div>
   <div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center;">
-    <img src="captura2.jpg" alt="Pantalla 2" style="width: 100%; height: auto;">
+    <img src="ImagenesSistema/login.jpg" alt="Pantalla 2" style="width: 100%; height: auto;">
     <h4>Panel del Administrador</h4>
   </div>
   <div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center;">
