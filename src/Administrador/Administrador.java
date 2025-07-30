@@ -67,7 +67,7 @@ public class Administrador extends JFrame{
     private JLabel rutasActivasLabel;
     private JLabel alertasPendientesLabel;
     private JLabel estudiantesRegistradosLabel;
-    private JLabel edadPromedioLabel;
+    private JLabel conductoresRegistradosLabel;
     private JPanel dashboardPanel;
     private JPanel registrarConductores;
     private JComboBox tipoSangreComboBox;
@@ -188,13 +188,13 @@ public class Administrador extends JFrame{
 
         /*
          * Carga los datos iniciales necesarios para el funcionamiento del sistema.
-         * Se cargan los ComboBox con información de la base de datos.
          */
         cargarRutasEstudiantes();
         cargarRutasDashboard();
         cargarConductoresRutas();
         cargarMonitoresRutas();
         mostrarAlertas();
+        actualizarEstadisticas();
 
         /*
          * Configuración de todos los ActionListener para el boton del cierre se sesion (encabezado).
@@ -285,6 +285,7 @@ public class Administrador extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 cargarRutasDashboard();
+                actualizarEstadisticas();
                 mostrarCarta("dashboard");
             }
         });
@@ -570,6 +571,7 @@ public class Administrador extends JFrame{
             //Verifica el resultado
             if (resultado>0){
                 JOptionPane.showMessageDialog(null,"Estudiante registrado exitosamente.");
+                actualizarEstadisticas();
             }else {
                 JOptionPane.showMessageDialog(null,"Error al registrar estudiante.");
             }
@@ -602,6 +604,7 @@ public class Administrador extends JFrame{
 
                 if (resultado > 0) {
                     JOptionPane.showMessageDialog(null, "Estudiante eliminado correctamente.");
+                    actualizarEstadisticas(); //Se actualizan las estadisticas del dashboard
                 } else {
                     JOptionPane.showMessageDialog(null, "No se pudo eliminar el estudiante.");
                 }
@@ -732,6 +735,7 @@ public class Administrador extends JFrame{
             //Se informa al usuario que la ruta fue registrada correctamente en el sistema
             if (resultado>0){
                 JOptionPane.showMessageDialog(null,"Ruta registrada exitosamente.");
+                actualizarEstadisticas();
             }else {
                 JOptionPane.showMessageDialog(null,"Error al registrar ruta.");
             }
@@ -907,12 +911,84 @@ public class Administrador extends JFrame{
             if (filaSeleccionada > 0){
                 JOptionPane.showMessageDialog(null, "Alerta marcada como atendida");
                 mostrarAlertas();
+                actualizarEstadisticas();
             }
             else {
                 JOptionPane.showMessageDialog(null, "Error al actualizar el estado de la alerta");
             }
         }catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Error al actualizar la alerta: "+ e.getMessage());
+        }
+
+    }
+
+    //Metodo para actualizar las estadisticas del dashboard
+    public void actualizarEstadisticas(){
+        actualizarRutasActivas();
+        actualizarAlertasPendientes();
+        actualizarEstudiantesRegistrados();
+        actualizarConductoresRegistrados();
+    }
+
+    //Metodo para actualizar el numero de rutas activas
+    public void  actualizarRutasActivas(){
+        String query = "select count(*) from rutas where estado_actual= 'En progreso'";
+        try(Connection conexion = ConexionDB.getConnection();
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ResultSet rs = ps.executeQuery()){
+            if (rs.next()){
+                rutasActivasLabel.setText(rs.getString(1));
+            }
+
+        }catch (SQLException e){
+            rutasActivasLabel.setText("0");
+        }
+
+    }
+
+    //Metodo para actualizar el numero de alertas pendientes
+    public void actualizarAlertasPendientes(){
+        String query = "select count(*) from alertas where estado = 'Pendiente'";
+        try(Connection conexion = ConexionDB.getConnection();
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ResultSet rs = ps.executeQuery()){
+
+            if (rs.next()){
+                alertasPendientesLabel.setText(rs.getString(1));
+            }
+        }catch (SQLException e){
+            alertasPendientesLabel.setText("0");
+        }
+    }
+
+
+    public void actualizarEstudiantesRegistrados(){
+        String query = "select count(*) from estudiantes";
+        try(Connection conexion = ConexionDB.getConnection();
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ResultSet rs = ps.executeQuery()){
+            if (rs.next()){
+                estudiantesRegistradosLabel.setText(rs.getString(1));
+            }
+        }catch (SQLException e){
+            estudiantesRegistradosLabel.setText("0");
+        }
+
+    }
+
+    public void actualizarConductoresRegistrados(){
+        String query = "select count(*) from conductores";
+
+        try (Connection conexion = ConexionDB.getConnection();
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ResultSet rs = ps.executeQuery()){
+
+            if (rs.next()){
+                conductoresRegistradosLabel.setText(rs.getString(1));
+            }
+
+        }catch (SQLException e){
+            conductoresRegistradosLabel.setText("0");
         }
 
     }
