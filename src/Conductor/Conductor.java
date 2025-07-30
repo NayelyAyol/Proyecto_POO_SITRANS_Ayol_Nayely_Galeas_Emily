@@ -214,6 +214,11 @@ public class Conductor extends JFrame {
         horaSalidatextField.setText("");
         horaEstimadatextField.setText("");
         asignadostextField.setText("");
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("Estudiante");
+        modelo.addColumn("Dirección");
+        modelo.addColumn("Teléfono");
+        table1.setModel(modelo);
     }
 
     // SECCION LISTA ESTUDIANTES A CARGO

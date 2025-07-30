@@ -125,6 +125,9 @@ public class MonitorDeRuta extends JFrame{
                     // Se limpian los campos
                     horaSalidatextField.setText("");
                     horaLlegadatextField.setText("");
+                    String[] columnas = {"ID", "Nombres", "Apellidos", "Curso", "Teléfono"};
+                    DefaultTableModel modelo = new DefaultTableModel(null, columnas);
+                    tableEstudiantesRegistradosRuta.setModel(modelo);
                     return;
                 }
 
