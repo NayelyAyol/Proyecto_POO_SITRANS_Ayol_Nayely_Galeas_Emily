@@ -207,13 +207,8 @@ public class Administrador extends JFrame{
         /*
          * Carga los datos iniciales necesarios para el funcionamiento del sistema.
          */
-        cargarRutasEstudiantes();
         cargarRutasDashboard();
-        cargarConductoresRutas();
-        cargarMonitoresRutas();
-        mostrarAlertas();
         actualizarEstadisticas();
-        listarRutas();
 
         /*
          * Configuración de todos los ActionListener para el boton del cierre se sesion (encabezado).
@@ -249,6 +244,8 @@ public class Administrador extends JFrame{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                cargarMonitoresRutas(); // carga los monitores disponibles en el Combo Box para asginar un monitor a la ruta
+                cargarConductoresRutas(); // Carga los conductores disponibles en el Combo Box para asignar rutas
                 mostrarCarta("rutas");
             }
         });
@@ -258,6 +255,7 @@ public class Administrador extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 cargarEstudiantes(); //Actualiza la tabla de estudiantes
+                cargarRutasEstudiantes(); // carga las rutas disponibles en el Combo Box para el registro
                 mostrarCarta("estudiantes");
             }
         });
@@ -284,7 +282,7 @@ public class Administrador extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 mostrarCarta("reportes");
-                listarRutas();
+                listarRutas(); // lista las rutas con la información detallada
             }
         });
 
@@ -296,6 +294,7 @@ public class Administrador extends JFrame{
              */
             @Override
             public void actionPerformed(ActionEvent e) {
+                mostrarAlertas();
                 mostrarCarta("alertas");
             }
         });
@@ -970,6 +969,13 @@ public class Administrador extends JFrame{
      */
     public void buscarEstudiantes(){
         String cedula = buscarEtdtextField.getText().trim();
+
+        if (cedula.trim().isEmpty()){
+            JOptionPane.showMessageDialog(null,"Ingrese la cédula del estudiante.");
+            return;
+        }else if (cedula.length() != 10){
+            JOptionPane.showMessageDialog(null,"Ingrese un número de cédula válido.");
+        }
 
         String[] columnas = {"ID", "Nombres","Apellidos", "Cédula", "Curso", "Dirección"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
