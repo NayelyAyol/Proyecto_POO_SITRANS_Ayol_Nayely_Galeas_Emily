@@ -341,7 +341,7 @@
             <children>
               <grid id="bc6c" binding="nuevaRuta" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="1" column="1" row-span="13" col-span="2" vsize-policy="3" hsize-policy="3" anchor="8" fill="2" indent="0" use-parent-layout="false">
+                  <grid row="1" column="1" row-span="13" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="2" indent="0" use-parent-layout="false">
                     <preferred-size width="1337" height="348"/>
                   </grid>
                   <gridbag weightx="1.0" weighty="1.0" ipadx="250"/>
