@@ -31,19 +31,19 @@
 <h4>👁 Previsualización del sistema</h4>
 <div style="display: flex; gap: 10px; margin-top: 10px;">
   <div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center;">
-    <img src="captura1.jpg" alt="Pantalla 1" style="width: 100%; height: auto;">
+    <img src="ImagenesSistema/login.jpg" alt="Pantalla 1" style="width: 100%; height: auto;">
     <h4>Login</h4>
   </div>
   <div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center;">
-    <img src="ImagenesSistema/login.jpg" alt="Pantalla 2" style="width: 100%; height: auto;">
+    <img src="ImagenesSistema/administrador_dashboard.jpg" alt="Pantalla 2" style="width: 100%; height: auto;">
     <h4>Panel del Administrador</h4>
   </div>
   <div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center;">
-    <img src="captura3.jpg" alt="Pantalla 3" style="width: 100%; height: auto;">
+    <img src="ImagenesSistema/conductor_ruta.jpg" alt="Pantalla 3" style="width: 100%; height: auto;">
     <h4>Panel del Conductor</h4>
   </div>
   <div style="flex: 1; border: 1px solid #ccc; padding: 5px; text-align: center;">
-    <img src="captura4.jpg" alt="Pantalla 4" style="width: 100%; height: auto;">
+    <img src="ImagenesSistema/monitor_ruta.jpg" alt="Pantalla 4" style="width: 100%; height: auto;">
     <h4>Pantalla del Monitor de Ruta</h4>
   </div>
 </div>
