@@ -28,7 +28,6 @@ public class Conductor extends JFrame {
     private JTable table1;
     private JScrollPane listaEstudiantesTable;
     private JPanel encabezado;
-    private JButton abordoButton;
 
     public Conductor(int conductorID) {
         setContentPane(Principal);
@@ -38,8 +37,17 @@ public class Conductor extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
+        //Estilos para el panel
         cerrarSesionButton.setBorder(null);
         encabezado.setBorder(new LineBorder(new Color(0,0,0),1));
+
+        //Configuracion de los JTextField para el panel de Ruta
+        zonatextField.setEditable(false);
+        capacidadtextField.setEditable(false);
+        asignadostextField.setEditable(false);
+        horaSalidatextField.setEditable(false);
+        horaEstimadatextField.setEditable(false);
+
 
         // Cargar datos
         cargarRutas();

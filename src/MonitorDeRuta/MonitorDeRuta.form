@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MonitorDeRuta.MonitorDeRuta">
   <grid id="27dc6" binding="Principal" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="20" y="20" width="2137" height="553"/>
+      <xy x="20" y="20" width="2217" height="560"/>
     </constraints>
     <properties>
       <background color="-1"/>
@@ -12,7 +12,7 @@
       <grid id="db515" binding="barraNavegacion" layout-manager="GridBagLayout">
         <constraints>
           <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="1.0" weighty="1.0" ipadx="100"/>
+          <gridbag weightx="1.0" weighty="1.0" ipadx="150"/>
         </constraints>
         <properties>
           <background color="-3211267"/>
@@ -36,7 +36,7 @@
             </constraints>
             <properties>
               <background color="-3211267"/>
-              <font name="JetBrains Mono" size="14" style="1"/>
+              <font name="JetBrains Mono" size="16" style="1"/>
               <foreground color="-16777216"/>
               <text value="Ruta Asignada"/>
             </properties>
@@ -48,7 +48,7 @@
             </constraints>
             <properties>
               <background color="-3211267"/>
-              <font name="JetBrains Mono" size="14" style="1"/>
+              <font name="JetBrains Mono" size="16" style="1"/>
               <foreground color="-16777216"/>
               <text value="Estudiantes Registrados"/>
             </properties>
@@ -60,7 +60,7 @@
             </constraints>
             <properties>
               <background color="-3211267"/>
-              <font name="JetBrains Mono" size="14" style="1"/>
+              <font name="JetBrains Mono" size="16" style="1"/>
               <foreground color="-16777216"/>
               <text value="Enviar Alerta"/>
             </properties>
@@ -72,7 +72,7 @@
             </constraints>
             <properties>
               <background color="-3211267"/>
-              <font name="JetBrains Mono" size="16" style="1"/>
+              <font name="JetBrains Mono" size="18" style="1"/>
               <foreground color="-16777216"/>
               <text value="Monitor de Ruta"/>
             </properties>
@@ -186,7 +186,7 @@
                   <gridbag weightx="0.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Nombre de Ruta:"/>
                 </properties>
@@ -197,7 +197,7 @@
                   <gridbag weightx="0.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Hora de salida:"/>
                 </properties>
@@ -208,7 +208,7 @@
                   <gridbag weightx="0.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Hora de Llegada:"/>
                 </properties>
@@ -274,7 +274,7 @@
                   <gridbag weightx="0.0" weighty="1.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="16" style="1"/>
+                  <font name="JetBrains Mono" size="18" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Información de la Ruta Asignada"/>
                 </properties>
@@ -368,7 +368,7 @@
                   <gridbag weightx="1.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="16" style="1"/>
+                  <font name="JetBrains Mono" size="18" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Estudiantes Registrados En La Ruta"/>
                 </properties>
@@ -446,18 +446,18 @@
             <children>
               <component id="fb855" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="16" style="1"/>
+                  <font name="JetBrains Mono" size="18" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Enviar Alerta al Administrador"/>
                 </properties>
               </component>
               <grid id="245ed" binding="formularioAlertaPanel" layout-manager="GridBagLayout">
                 <constraints>
-                  <grid row="2" column="2" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="3" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties>
@@ -471,7 +471,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <font name="JetBrains Mono" size="16" style="1"/>
                       <foreground color="-16777216"/>
                       <text value="Tipo de Alerta:"/>
                     </properties>
@@ -503,7 +503,7 @@
                   </component>
                   <component id="60b6" class="javax.swing.JButton" binding="enviarButton" default-binding="true">
                     <constraints>
-                      <grid row="13" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="13" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="1.0" weighty="0.0"/>
                     </constraints>
                     <properties>
@@ -519,7 +519,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <font name="JetBrains Mono" size="16" style="1"/>
                       <foreground color="-16777216"/>
                       <text value="Descripción detallada:"/>
                     </properties>
@@ -578,7 +578,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <font name="JetBrains Mono" size="16" style="1"/>
                       <foreground color="-16777216"/>
                       <text value="Ruta:"/>
                     </properties>
@@ -613,7 +613,7 @@
                       <background color="-3211267"/>
                       <font name="JetBrains Mono" size="14" style="1"/>
                       <foreground color="-16777216"/>
-                      <text value="limpiar"/>
+                      <text value="Limpiar"/>
                     </properties>
                   </component>
                 </children>
@@ -630,19 +630,19 @@
               </component>
               <vspacer id="6cd5a">
                 <constraints>
-                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
                 </constraints>
               </vspacer>
               <hspacer id="5048e">
                 <constraints>
-                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipadx="80"/>
                 </constraints>
               </hspacer>
               <vspacer id="1672e">
                 <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipady="90"/>
                 </constraints>
               </vspacer>
@@ -650,6 +650,12 @@
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipadx="60"/>
+                </constraints>
+              </hspacer>
+              <hspacer id="b65c8">
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
               </hspacer>
             </children>

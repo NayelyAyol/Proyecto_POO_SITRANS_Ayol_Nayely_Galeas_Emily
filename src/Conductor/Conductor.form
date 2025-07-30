@@ -34,7 +34,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="18" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Información de la Ruta Asignada"/>
                 </properties>
@@ -56,7 +56,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Zona:"/>
                 </properties>
@@ -67,7 +67,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Capacidad:"/>
                 </properties>
@@ -78,7 +78,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Asignados:"/>
                 </properties>
@@ -89,7 +89,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Hora estimada de salida:"/>
                 </properties>
@@ -100,7 +100,7 @@
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Hora estimada de llegada:"/>
                 </properties>
@@ -181,7 +181,7 @@
                       <gridbag weightx="1.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <font name="JetBrains Mono" size="16" style="1"/>
                       <foreground color="-16777216"/>
                       <text value="Ubicacion Actual"/>
                     </properties>
@@ -202,7 +202,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <font name="JetBrains Mono" size="14" style="1"/>
+                      <font name="JetBrains Mono" size="16" style="1"/>
                       <foreground color="-16777216"/>
                       <text value="Estado Actual"/>
                     </properties>
@@ -409,18 +409,18 @@
             <children>
               <component id="f884f" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="1.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <font name="JetBrains Mono" size="18" style="1"/>
                   <foreground color="-16777216"/>
                   <text value="Lista de Estudiantes Asignados"/>
                 </properties>
               </component>
               <scrollpane id="2ba96" binding="listaEstudiantesTable">
                 <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="1.0" weighty="1.0"/>
                 </constraints>
                 <properties/>
@@ -428,13 +428,15 @@
                 <children>
                   <component id="11da4" class="javax.swing.JTable" binding="table1" default-binding="true">
                     <constraints/>
-                    <properties/>
+                    <properties>
+                      <intercellSpacing width="2" height="2"/>
+                    </properties>
                   </component>
                 </children>
               </scrollpane>
               <vspacer id="2ca67">
                 <constraints>
-                  <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
                 </constraints>
               </vspacer>
@@ -453,30 +455,28 @@
               <vspacer id="bee64">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                  <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
+                  <gridbag weightx="0.0" weighty="0.0" ipady="40"/>
                 </constraints>
               </vspacer>
               <vspacer id="aa197">
                 <constraints>
-                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0" ipady="20"/>
                 </constraints>
               </vspacer>
-              <component id="59c1" class="javax.swing.JButton" binding="abordoButton" default-binding="true">
+              <component id="6d1c1" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
                 <properties>
-                  <background color="-3211267"/>
-                  <font name="JetBrains Mono" size="14" style="1"/>
-                  <foreground color="-16777216"/>
-                  <text value="Abordo"/>
+                  <icon value="Icons/report24x24.png"/>
+                  <text value=""/>
                 </properties>
               </component>
-              <hspacer id="a72">
+              <hspacer id="47e6e">
                 <constraints>
-                  <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                   <gridbag weightx="0.0" weighty="0.0"/>
                 </constraints>
               </hspacer>
