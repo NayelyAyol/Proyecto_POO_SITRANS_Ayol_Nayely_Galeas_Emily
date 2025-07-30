@@ -889,7 +889,7 @@ public class Administrador extends JFrame{
             PreparedStatement ps = conexion.prepareStatement(query);
             ResultSet rs = ps.executeQuery()){
 
-            if (rs.next()){
+            while (rs.next()){
                 Object[] fila = new Object[10];
                 fila[0] = rs.getInt("id");
                 fila[1] = rs.getString("nombre_ruta");
@@ -902,7 +902,7 @@ public class Administrador extends JFrame{
                 fila[8] = rs.getInt("monitor_id");
                 fila[9] = rs.getInt("conductor_id");
 
-                model.addColumn(fila);
+                model.addRow(fila);
             }
 
             reportesRutaTable.setModel(model);
@@ -929,7 +929,7 @@ public class Administrador extends JFrame{
                     fila[0] = rs.getInt("id");
                     fila[1] = rs.getString("nombres");
                     fila[2] = rs.getString("apellidos");
-                    fila[3] = rs.getInt("cedula");
+                    fila[3] = rs.getString("cedula");
                     fila[4] = rs.getString("curso");
                     fila[5] = rs.getString("direccion");
 
