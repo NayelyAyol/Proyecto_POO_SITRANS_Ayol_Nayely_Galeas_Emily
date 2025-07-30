@@ -9,6 +9,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 /**
  * Clase principal del módulo de administración del sistema de transporte escolar.
@@ -758,6 +761,13 @@ public class Administrador extends JFrame{
             return;
         }
 
+        // Validación de las horas reales con su formato correcto
+
+        if (!validarHora(hora_llegada) || !validarHora(hora_llegada)){
+            JOptionPane.showMessageDialog(null,"Ingrese una hora válida, en formato de 24 horas. \nLas rutas solo pueden hacer recorridos de 5 am a 9 pm.");
+            return;
+        }
+
         //Se extrae el ID del monitor para agregarlo correctamente en la base.
         int monitorID = Integer.parseInt(monitor.split(" - ")[0]);
 
@@ -765,19 +775,20 @@ public class Administrador extends JFrame{
         int conductorID = Integer.parseInt(conductor.split(" - ")[0]);
 
         //Query para insertar una nueva ruta
-        String query = "INSERT INTO rutas (nombre_ruta, origen, destino, capacidad_max, dia, hora_salida, hora_llegada, monitor_id, conductor_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO rutas (nombre_ruta, placas_vehiculo, origen, destino, capacidad_max, dia, hora_salida, hora_llegada, monitor_id, conductor_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query)){
             //Asignación de parámetros
             ps.setString(1, nombre_ruta);
-            ps.setString(2, origen);
-            ps.setString(3, destino);
-            ps.setInt(4, capacidad);
-            ps.setString(5, dia);
-            ps.setString(6, hora_salida);
-            ps.setString(7, hora_llegada);
-            ps.setInt(8,monitorID);
-            ps.setInt(9, conductorID);
+            ps.setString(2,placa);
+            ps.setString(3, origen);
+            ps.setString(4, destino);
+            ps.setInt(5, capacidad);
+            ps.setString(6, dia);
+            ps.setString(7, hora_salida);
+            ps.setString(8, hora_llegada);
+            ps.setInt(9,monitorID);
+            ps.setInt(10, conductorID);
 
             //Un valor > 0 indica que la inserción fue exitosa
             int resultado = ps.executeUpdate();
@@ -794,6 +805,30 @@ public class Administrador extends JFrame{
             JOptionPane.showMessageDialog(null,"Error en la base de datos " + e.getMessage());
         }
     }
+
+    // Metodo para validar la hora al registrar ruta
+
+    /**
+     * Se establece un rango en el que el usuario puede registrar la hora de salida y de llegada al intentar agregar una nueva ruta
+     *
+     * @throws DateTimeParseException si ocurre error al transformar el texto en hora
+     */
+
+    public boolean validarHora(String horaField) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            LocalTime hora = LocalTime.parse(horaField, formatter);
+
+            LocalTime am = LocalTime.of(5, 00);
+            LocalTime pm = LocalTime.of(21, 0);
+
+            return !hora.isBefore(am) && !hora.isAfter(pm);
+            // retorna true si la hora no se encuentra antes de 05:00 y si la hora está después de las 21:00
+        } catch (DateTimeParseException e) {
+            return false; // formato inválido
+        }
+    }
+
 
     // SECCION DASHBOARD
     /**
@@ -1016,21 +1051,22 @@ public class Administrador extends JFrame{
      * @throws SQLException si ocurre error al consultar alertas
      */
     public void mostrarAlertas(){
-        String[] columnas = {"ID", "Ruta","Tipo de Alerta","Descripción", "Estado"};
+        String[] columnas = {"ID", "Ruta","Tipo de Alerta", "Fecha","Descripción", "Estado"};
         DefaultTableModel modelo = new DefaultTableModel(null, columnas);
 
-        String query = "Select a.id, a.tipo, a.descripcion, a.estado,r.nombre_ruta from alertas a join rutas r on a.ruta_id = r.id";
+        String query = "Select a.id, a.tipo, a.fecha, a.descripcion, a.estado,r.nombre_ruta from alertas a join rutas r on a.ruta_id = r.id";
 
         try (Connection conexion = ConexionDB.getConnection(); PreparedStatement ps = conexion.prepareStatement(query);
         ResultSet rs = ps.executeQuery()){
 
             while (rs.next()){
-                Object[] fila = new Object[5];
+                Object[] fila = new Object[6];
                 fila[0] = rs.getInt("id");
                 fila[1] = rs.getString("nombre_ruta");
                 fila[2] = rs.getString("tipo");
-                fila[3] = rs.getString("descripcion");
-                fila[4] = rs.getString("estado");
+                fila[3] = rs.getString("fecha");
+                fila[4] = rs.getString("descripcion");
+                fila[5] = rs.getString("estado");
                 modelo.addRow(fila);
             }
             alertasTable.setModel(modelo);
