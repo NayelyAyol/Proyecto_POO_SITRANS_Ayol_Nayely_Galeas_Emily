@@ -50,3 +50,11 @@
 
 <br>
 <h4>📥Descarga del sistema</h4>
+<a href="https://drive.google.com/drive/folders/1wChsA4pF3qrglqcBfyBN5FLVFDd3CZuP?usp=sharing" target="_blank">
+  Descargar SITRANS (.exe)
+</a>
+
+<h4>🎥 Video tutorial del sistema</h4>
+<a href="https://youtu.be/sYHH_URQQB8" target="_blank" style="background-color: #2196F3; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+  Ver Video
+</a>
