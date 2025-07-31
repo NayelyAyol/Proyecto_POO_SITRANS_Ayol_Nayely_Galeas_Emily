@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Clase para conectar con la base de datos MySQL.
+ * Clase para manejar la conexión a la base de datos MySQL
  */
 public class ConexionDB {
 
@@ -15,9 +15,8 @@ public class ConexionDB {
     private static final String clave = "6Mkwjg8zwGZddbo0uwIm";
 
     /**
-     * Obtiene una conexión a la base de datos.
-     *
-     * @return Conexión a la base de datos o null si hay error
+     * Obtiene una conexión a la base de datos
+     * @return Connection objeto de conexión a la base de datos
      */
     public static Connection getConnection(){
         try {

@@ -3,12 +3,13 @@ package Main;
 import Login.Login;
 
 /**
- * Clase principal de SITRANS.
+ * Clase principal de la aplicación
+ * Contiene el punto de entrada del programa
  */
 public class Main {
     /**
-     * Método principal que inicia la aplicación.
-     * Crea y muestra la ventana de login
+     * Método principal de la aplicación
+     * @param args argumentos de línea de comandos
      */
     public static void main(String[] args) {
         // Se inicializa la aplicación mostrando la ventana de login

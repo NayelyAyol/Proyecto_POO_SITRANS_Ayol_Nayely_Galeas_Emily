@@ -21,6 +21,9 @@ import java.time.format.DateTimeParseException;
  * @author Ayol Nayely, Galeas Emily
  */
 public class Administrador extends JFrame{
+    /**
+     * Componentes de la interfaz
+     */
     private JPanel Principal;
     private JPanel rutasAct;
     private JPanel estuReg;
@@ -451,8 +454,8 @@ public class Administrador extends JFrame{
     }
 
     /**
-     * Método para cambiar entre las diferentes pantallas del sistema.
-     * Utiliza CardLayout para mostrar la carta específica solicitada.
+     * Muestra la carta especificada
+     * @param nombreCarta el nombre de la carta a mostrar
      */
     public void mostrarCarta(String nombreCarta) {
         CardLayout cl = (CardLayout) Cards.getLayout();
@@ -463,8 +466,6 @@ public class Administrador extends JFrame{
 
     /**
      * Carga los conductores registrados en la tabla de la interfaz.
-     *
-     * @throws SQLException si ocurre error al consultar la base de datos
      */
      public void cargarConductoresRegistro(){
         String[] columnas = {"ID","Nombre","Teléfono","Correo","Licencia"};
@@ -495,8 +496,6 @@ public class Administrador extends JFrame{
 
     /**
      * Elimina el conductor seleccionado. Solicita confirmación al usuario.
-     *
-     * @throws SQLException si ocurre error durante la eliminación
      */
     public void eliminarRegistroConductor(){
         int filaSeleecionada = listaConductoresTable.getSelectedRow();
@@ -533,8 +532,6 @@ public class Administrador extends JFrame{
 
     /**
      * Carga las rutas disponibles en el ComboBox para registro de estudiantes.
-     *
-     * @throws SQLException si ocurre error al consultar las rutas
      */
      public void cargarRutasEstudiantes(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
@@ -560,8 +557,6 @@ public class Administrador extends JFrame{
      * Registra un nuevo estudiante en la base de datos.
      * Valida que todos los campos estén completos para proceder con el registro.
      * Extrae el ID de la ruta seleccionada y ejecuta la inserción en la base de datos.
-     *
-     * @throws SQLException si ocurre un error durante la inserción en la base de datos
      */
     public void registrarEstudiante(){
         //Se obtiene y limpia los datos de los campos de texto
@@ -627,8 +622,6 @@ public class Administrador extends JFrame{
 
     /**
      * Elimina el estudiante seleccionado. Solicita confirmación.
-     *
-     * @throws SQLException si ocurre error durante la eliminación
      */
     public void eliminarRegistroEstudiante(){
         int filaSeleecionada = listaEstudiantestable.getSelectedRow();
@@ -666,8 +659,6 @@ public class Administrador extends JFrame{
 
     /**
      * Carga conductores disponibles en ComboBox para asignar a rutas.
-     *
-     * @throws SQLException si ocurre error al consultar conductores
      */
     public void cargarConductoresRutas(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
@@ -691,8 +682,6 @@ public class Administrador extends JFrame{
 
     /**
      * Carga monitores disponibles en ComboBox para asignar a rutas.
-     *
-     * @throws SQLException si ocurre error al consultar monitores
      */
     public void cargarMonitoresRutas(){
         try (Connection conexion = ConexionMySql.ConexionDB.getConnection();
@@ -717,9 +706,6 @@ public class Administrador extends JFrame{
     /**
      * Registra una nueva ruta en la base de datos del sistema de transporte escolar.
      * Este método valida todos los campos obligatorios del formulario
-     * @throws SQLException si ocurre un error durante la inserción en la base de datos
-     * @throws NumberFormatException si la capacidad ingresada no es un número válido
-     * @throws ArrayIndexOutOfBoundsException si los ComboBox no tienen el formato esperado "ID - Nombre"
      */
     public void registrarRutas(){
         //Se obtiene y limpia los datos de los campos
@@ -812,11 +798,10 @@ public class Administrador extends JFrame{
     // Metodo para validar la hora al registrar ruta
 
     /**
-     * Se establece un rango en el que el usuario puede registrar la hora de salida y de llegada al intentar agregar una nueva ruta
-     *
-     * @throws DateTimeParseException si ocurre error al transformar el texto en hora
+     * Valida el formato de hora
+     * @param horaField la hora a validar
+     * @return true si la hora es válida, false en caso contrario
      */
-
     public boolean validarHora(String horaField) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -836,8 +821,6 @@ public class Administrador extends JFrame{
     // SECCION DASHBOARD
     /**
      * Carga rutas en la tabla del dashboard principal.
-     *
-     * @throws SQLException si ocurre error al consultar rutas
      */
      public void cargarRutasDashboard(){
         String[] columnas = {"Ruta", "Origen","Destino","Dia","Hora Salida","Hora Llegada", "Estado Actual"};
@@ -870,8 +853,6 @@ public class Administrador extends JFrame{
 
     /**
      * Carga lista completa de estudiantes con información de rutas.
-     *
-     * @throws SQLException si ocurre error al consultar estudiantes
      */
     public void cargarEstudiantes() {
 
@@ -912,8 +893,6 @@ public class Administrador extends JFrame{
      * Registra un nuevo conductor en la base de datos.
      * Valida que todos los campos estén completos y ejecuta la inserción.
      * Después del registro actualiza la lista de conductores mostrada.
-     *
-     * @throws SQLException si ocurre un error durante la inserción en la base de datos
      */
     public void registrarConductores(){
         //Se obtiene y limpia los datos de los campos
@@ -965,8 +944,6 @@ public class Administrador extends JFrame{
     //Seccion Reportes
     /**
      * Lista todas las rutas con información detallada.
-     *
-     * @throws SQLException si ocurre error al consultar rutas
      */
     public void listarRutas(){
         String[] columnas =  {"ID","Ruta","Placas del vehículo","Destino","Día","Hora de salida","Hora de llegada", "Estado","Monitor","Conductor"};
@@ -1002,8 +979,6 @@ public class Administrador extends JFrame{
 
     /**
      * Busca estudiantes por cédula usando coincidencia parcial.
-     *
-     * @throws SQLException si ocurre error durante la búsqueda
      */
     public void buscarEstudiantes(){
         String cedula = buscarEtdtextField.getText().trim();
@@ -1050,8 +1025,6 @@ public class Administrador extends JFrame{
     //Seccion Alertas
     /**
      * Carga y muestra todas las alertas del sistema.
-     *
-     * @throws SQLException si ocurre error al consultar alertas
      */
     public void mostrarAlertas(){
         String[] columnas = {"ID", "Ruta","Tipo de Alerta", "Fecha","Descripción", "Estado"};
@@ -1081,8 +1054,6 @@ public class Administrador extends JFrame{
 
     /**
      * Marca la alerta seleccionada como "Atendida".
-     *
-     * @throws SQLException si ocurre error al actualizar la alerta
      */
     public void atenderAlerta(){
         int registro = alertasTable.getSelectedRow();
@@ -1128,8 +1099,6 @@ public class Administrador extends JFrame{
 
     /**
      * Cuenta y actualiza el número de rutas activas.
-     *
-     * @throws SQLException si ocurre error al consultar rutas
      */
     public void  actualizarRutasActivas(){
         String query = "select count(*) from rutas where estado_actual= 'En progreso'";
@@ -1150,8 +1119,6 @@ public class Administrador extends JFrame{
 
     /**
      * Cuenta y actualiza el número de alertas pendientes.
-     *
-     * @throws SQLException si ocurre error al consultar alertas
      */
     public void actualizarAlertasPendientes(){
         String query = "select count(*) from alertas where estado = 'Pendiente'";
@@ -1169,8 +1136,6 @@ public class Administrador extends JFrame{
 
     /**
      * Cuenta y actualiza el total de estudiantes registrados.
-     *
-     * @throws SQLException si ocurre error al consultar estudiantes
      */
     public void actualizarEstudiantesRegistrados(){
         String query = "select count(*) from estudiantes";
@@ -1190,8 +1155,6 @@ public class Administrador extends JFrame{
 
     /**
      * Cuenta y actualiza el total de conductores registrados.
-     *
-     * @throws SQLException si ocurre error al consultar conductores
      */
     public void actualizarConductoresRegistrados(){
         String query = "select count(*) from conductores";

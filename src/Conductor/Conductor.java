@@ -13,6 +13,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+/**
+ * Clase que representa la interfaz del conductor
+ * Maneja las funcionalidades específicas para conductores
+ */
 public class Conductor extends JFrame {
     private JPanel Principal;
     private JButton cerrarSesionButton;
