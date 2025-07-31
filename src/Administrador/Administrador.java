@@ -808,10 +808,10 @@ public class Administrador extends JFrame{
             LocalTime hora = LocalTime.parse(horaField, formatter);
 
             LocalTime am = LocalTime.of(5, 00);
-            LocalTime pm = LocalTime.of(21, 0);
+            LocalTime pm = LocalTime.of(21, 00);
 
             return !hora.isBefore(am) && !hora.isAfter(pm);
-            // retorna true si la hora no se encuentra antes de 05:00 y si la hora está después de las 21:00
+            // Retorna true si la hora está entre las 05:00 y las 21:00 (inclusive)
         } catch (DateTimeParseException e) {
             return false; // formato inválido
         }
