@@ -80,6 +80,13 @@
   Descargar SITRANS (.exe)
 </a>
 
+<br>
+<h4>📄Descarga el Java Doc</h4>
+<a href="https://drive.google.com/drive/folders/1S6WbInQgmOpezZO5Bprq_97WkJPtV60_?usp=sharing" target="_blank">
+  Descargar JAVA DOC
+</a>
+
+<br>
 <h4>🎥 Video tutorial del sistema</h4>
 <a href="https://youtu.be/sYHH_URQQB8" target="_blank" style="background-color: #2196F3; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
   Ver Video
