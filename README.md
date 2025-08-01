@@ -24,6 +24,10 @@
 <p>- Java<br>- Java Swing<br>- MySQL - Clever Cloud<br>- JDBC<br>- Git Hub</p>
 
 <br>
+<h4>⚙ Claves de Acceso</h4>
+<p>Administrador<br>- Correo: administrador@sitrans.com<br>- Contraseña: admin123<br>Conductor<br>- Correo: juan.perez@sitrans.com<br>- Contraseña: juan123<br>Monitor de Ruta<br>- Correo: ana.garcia@sitrans.com<br>- Contraseña: ana123</p>
+
+<br>
 <h4>👩‍💻 Autores</h4>
 <p>- Nayely Ayol<br>- Emily Galeas</p>
 
