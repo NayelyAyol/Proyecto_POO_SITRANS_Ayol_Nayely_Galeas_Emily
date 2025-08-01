@@ -47,7 +47,7 @@ public class Administrador extends JFrame{
     private JComboBox conductorComboBox;
     private JTextField placaVehiculoTextField;
     private JTextField capacidadTextField;
-    private JTextField horaLlegadaTextField;
+    private JTextField horaSalidaTextField;
     private JComboBox diaComboBox;
     private JPanel configuracionExtra;
     private JPanel encabezado;
@@ -99,7 +99,7 @@ public class Administrador extends JFrame{
     private JPanel alertas;
     private JButton atendidaButton;
     private JPanel alertasPanel;
-    private JTextField horaSalidaTextField;
+    private JTextField horaLlegadaTextField;
     private JTable rutasDashboardTable;
     private JTable listaEstudiantestable;
     private JScrollPane listaScroll;
@@ -398,8 +398,8 @@ public class Administrador extends JFrame{
                 destinoRutaTextField.setText("");
                 placaVehiculoTextField.setText("");
                 capacidadTextField.setText("");
-                horaSalidaTextField.setText("");
                 horaLlegadaTextField.setText("");
+                horaSalidaTextField.setText("");
 
                 //Se resetea el ComboBox
                 estadoRutaComboBox.setSelectedIndex(0);
@@ -496,37 +496,57 @@ public class Administrador extends JFrame{
 
     /**
      * Elimina el conductor seleccionado. Solicita confirmación al usuario.
+     * Verifica si tiene rutas asignadas antes de eliminar.
      */
-    public void eliminarRegistroConductor(){
-        int filaSeleecionada = listaConductoresTable.getSelectedRow();
+    public void eliminarRegistroConductor() {
+        int filaSeleccionada = listaConductoresTable.getSelectedRow();
 
-        if (filaSeleecionada == -1){
-            JOptionPane.showMessageDialog(null,"Selecciona un registro para eliminar.");
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona un registro para eliminar.");
             return;
         }
 
-        // Se extrae el id del estudiante de la fila seleccionada y la columna en donde se encuentra su ID
-        int conductorID = (int) listaConductoresTable.getValueAt(filaSeleecionada,0);
+        // Se extrae el ID del conductor desde la tabla
+        int conductorID = Integer.parseInt(listaConductoresTable.getValueAt(filaSeleccionada, 0).toString());
 
-        int confirmacion = JOptionPane.showConfirmDialog(null,"¿Estás seguro de eliminar este registro?","Confirmar",JOptionPane.YES_NO_OPTION);
+        // Verifica si el conductor tiene rutas asignadas
+        String consultaVerificacion = "SELECT COUNT(*) AS total FROM rutas WHERE conductor_id = ?";
 
-        if (confirmacion == JOptionPane.YES_OPTION) {
-            try (Connection conexion = ConexionDB.getConnection();
-                 PreparedStatement ps = conexion.prepareStatement("DELETE FROM conductores WHERE id = ?")) {
+        try (Connection conexion = ConexionDB.getConnection();
+             PreparedStatement psVerificar = conexion.prepareStatement(consultaVerificacion)) {
 
-                ps.setInt(1, conductorID);
-                int resultado = ps.executeUpdate();
+            psVerificar.setInt(1, conductorID);
+            ResultSet rs = psVerificar.executeQuery();
+
+            if (rs.next() && rs.getInt("total") > 0) {
+                JOptionPane.showMessageDialog(null,
+                        "No se puede eliminar el conductor porque tiene rutas asignadas.\n" +
+                                "Debe reasignarlas o eliminarlas primero.",
+                        "Conductor en uso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            int confirmacion = JOptionPane.showConfirmDialog(null,
+                    "¿Estás seguro de eliminar este registro?", "Confirmar", JOptionPane.YES_NO_OPTION);
+
+            if (confirmacion == JOptionPane.YES_OPTION) {
+                PreparedStatement psEliminar = conexion.prepareStatement("DELETE FROM conductores WHERE id = ?");
+                psEliminar.setInt(1, conductorID);
+                int resultado = psEliminar.executeUpdate();
 
                 if (resultado > 0) {
                     JOptionPane.showMessageDialog(null, "Conductor eliminado correctamente.");
+                    actualizarEstadisticas(); // Si tienes este método en tu clase
                 } else {
                     JOptionPane.showMessageDialog(null, "No se pudo eliminar el conductor.");
                 }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error de base de datos: " + ex.getMessage());
             }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error de base de datos: " + ex.getMessage());
         }
     }
+
 
     // SECCIÓN ESTUDIANTES
 
@@ -752,8 +772,11 @@ public class Administrador extends JFrame{
 
         // Validación de las horas reales con su formato correcto
 
-        if (!validarHora(hora_llegada) || !validarHora(hora_llegada)){
-            JOptionPane.showMessageDialog(null,"Ingrese una hora válida, en formato de 24 horas. \nLas rutas solo pueden hacer recorridos de 5 am a 9 pm.");
+
+        if (!validarHora(hora_salida, hora_llegada)) {
+            JOptionPane.showMessageDialog(null,
+                    "Ingrese horas válidas en formato HH:mm.\n" +
+                            "Deben estar entre 05:00 y 21:00 y la llegada debe ser después de la salida.");
             return;
         }
 
@@ -798,22 +821,30 @@ public class Administrador extends JFrame{
     // Metodo para validar la hora al registrar ruta
 
     /**
-     * Valida el formato de hora
-     * @param horaField la hora a validar
-     * @return true si la hora es válida, false en caso contrario
+     * Valida que la hora de salida y llegada estén en formato válido (HH:mm),
+     * en el rango 05:00 a 21:00, y que la llegada sea posterior a la salida.
+     *
+     * @param salida hora de salida
+     * @param llegada hora de llegada
+     * @return true si las horas son válidas y en orden correcto; false si no
      */
-    public boolean validarHora(String horaField) {
+    public boolean validarHora(String salida, String llegada) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            LocalTime hora = LocalTime.parse(horaField, formatter);
+            LocalTime horaSalida = LocalTime.parse(salida, formatter);
+            LocalTime horaLlegada = LocalTime.parse(llegada, formatter);
 
-            LocalTime am = LocalTime.of(5, 00);
-            LocalTime pm = LocalTime.of(21, 00);
+            LocalTime inicio = LocalTime.of(5, 0);
+            LocalTime fin = LocalTime.of(21, 0);
 
-            return !hora.isBefore(am) && !hora.isAfter(pm);
-            // Retorna true si la hora está entre las 05:00 y las 21:00 (inclusive)
+            boolean salidaValida = !horaSalida.isBefore(inicio) && !horaSalida.isAfter(fin);
+            boolean llegadaValida = !horaLlegada.isBefore(inicio) && !horaLlegada.isAfter(fin);
+            boolean ordenCorrecto = horaLlegada.isAfter(horaSalida);
+
+            return salidaValida && llegadaValida && ordenCorrecto;
+
         } catch (DateTimeParseException e) {
-            return false; // formato inválido
+            return false;
         }
     }
 
@@ -988,6 +1019,7 @@ public class Administrador extends JFrame{
             return;
         }else if (cedula.length() != 10){
             JOptionPane.showMessageDialog(null,"Ingrese un número de cédula válido.");
+            return;
         }
 
         String[] columnas = {"ID", "Nombres","Apellidos", "Cédula", "Curso", "Dirección"};
