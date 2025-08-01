@@ -479,7 +479,7 @@ public class Administrador extends JFrame{
 
             while (rs.next()) {
                 Object[] fila = new Object[5];
-                fila[0] = rs.getString("id");
+                fila[0] = rs.getInt("id");
                 fila[1] = rs.getString("nombre");
                 fila[2] = rs.getString("telefono");
                 fila[3] = rs.getString("correo");
@@ -507,7 +507,7 @@ public class Administrador extends JFrame{
         }
 
         // Se extrae el ID del conductor desde la tabla
-        int conductorID = Integer.parseInt(listaConductoresTable.getValueAt(filaSeleccionada, 0).toString());
+        int conductorID = (int) listaConductoresTable.getValueAt(filaSeleccionada, 0);
 
         // Verifica si el conductor tiene rutas asignadas
         String consultaVerificacion = "SELECT COUNT(*) AS total FROM rutas WHERE conductor_id = ?";
