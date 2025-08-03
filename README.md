@@ -88,6 +88,6 @@
 
 <br>
 <h4>🎥 Video tutorial del sistema</h4>
-<a href="https://youtu.be/sYHH_URQQB8" target="_blank" style="background-color: #2196F3; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
+<a href="https://www.youtube.com/watch?v=qZM7C9GNhrc" target="_blank" style="background-color: #2196F3; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">
   Ver Video
 </a>
